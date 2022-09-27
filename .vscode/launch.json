@@ -5,10 +5,18 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Debug Local File",
-      "type": "Ruby",
+      "type": "java",
+      "name": "Launch Main",
       "request": "launch",
-      "program": "${workspaceRoot}/main.rb"
+      "mainClass": "mtdm.dk.Main",
+      "projectName": "SOP_38f7e088"
+    },
+    {
+      "type": "java",
+      "name": "Launch test",
+      "request": "launch",
+      "mainClass": "mtdm.dk.test",
+      "projectName": "SOP_38f7e088"
     }
   ]
 }
