@@ -1,4 +1,4 @@
-package mtdm.dk;
+package mtdm.dk.labyrinth;
 
 public class Labyrinth{
   
@@ -23,7 +23,7 @@ public class Labyrinth{
   }
 
   public boolean isPath(int...pos){
-    return this.labyrinthTile[pos[0]][pos[1]];
+    return !this.labyrinthTile[pos[0]][pos[1]];
   }
 
 }
