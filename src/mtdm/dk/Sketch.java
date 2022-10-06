@@ -2,6 +2,7 @@ package mtdm.dk;
 
 import processing.core.PApplet;
 import processing.core.PGraphics;
+import mtdm.dk.labyrinth.Labyrinth;
 
 public class Sketch extends PApplet{
 
@@ -10,7 +11,7 @@ public class Sketch extends PApplet{
   static PGraphics g;
   static int sqrWidth;
   static int sqrHeigth;
-  static Labyrinth a = new Labyrinth(100,50);
+  static Labyrinth maze = new Labyrinth(g,100,50);
 
   public void main() {
     PApplet.main("Sketch");
@@ -23,8 +24,8 @@ public class Sketch extends PApplet{
   
   @Override
   public void setup() {
-    sqrWidth = width/a.width;
-    sqrHeigth = heigth/a.height;
+    sqrWidth = width/maze.width;
+    sqrHeigth = heigth/maze.height;
     g = getGraphics();
     strokeWeight(2);
   }
@@ -33,9 +34,9 @@ public class Sketch extends PApplet{
     run();
   }
   public static void run(){
-    for(int i = 0; i < a.width;i++){
-      for(int j = 0; j < a.height;j++){
-        if (a.isPath(i,j)){
+    for(int i = 0; i < maze.width;i++){
+      for(int j = 0; j < maze.height;j++){
+        if (maze.isPath(i,j)){
           g.fill(255,0,0);
         }else{
           g.fill(0,0,255);

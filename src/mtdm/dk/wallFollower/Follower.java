@@ -67,7 +67,8 @@ public class Follower {
   }
 
   private boolean isClear(){
-    return maze.isPath(nextPoint());
+    int[] point = nextPoint();
+    return maze.isPath(point[0],point[1]);
   }
 
   private int[] nextPoint() {
