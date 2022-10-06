@@ -1,8 +1,12 @@
 package mtdm.dk;
 
+import processing.core.PApplet;
+
 public class test {
+  static Sketch draw;
   public static void main(String[] args) {
-    System.out.println("hello");
-    System.out.println(-1%4);
+    String[] processingArgs = {"Sketch"};
+    draw = new Sketch();
+    PApplet.runSketch(processingArgs,draw);
   }
 }
