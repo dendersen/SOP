@@ -1,6 +1,6 @@
 package mtdm.dk.wallFollower;
 
-import mtdm.dk.Labyrinth;
+import mtdm.dk.labyrinth.Labyrinth;
 
 public class Follower {
   
@@ -12,7 +12,7 @@ public class Follower {
   int goalX;
   int goalY;
 
-  public void setup(Labyrinth labyrinth, int startX,int startY,int endX,int endY, boolean rigth) {
+  public Follower(Labyrinth labyrinth, int startX,int startY,int endX,int endY, boolean rigth) {
     this.maze = labyrinth;
     this.X = startX;
     this.Y = startY;
@@ -20,11 +20,13 @@ public class Follower {
     path[0][0] = 0;
   }
 
-  public void run(int maxSteps){
-    while (X != goalX && Y != goalY){
+  public int[][] run(int maxSteps){
+    int p = path[0][0];
+    while (!(X == goalX || Y == goalY) && maxSteps > path[0][0]-p){
       storePath();
       nextStep();
     }
+    return path;
   }
   
   private void storePath(){

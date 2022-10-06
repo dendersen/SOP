@@ -1,4 +1,4 @@
-package mtdm.dk;
+package mtdm.dk.labyrinth;
 
 import java.util.regex.Pattern;
 
@@ -53,6 +53,6 @@ public class Labyrinth{
   }
 
   public boolean isPath(int...pos){
-    return this.labyrinthTile[pos[0]][pos[1]];
+    return !this.labyrinthTile[pos[0]][pos[1]];
   }
 }
