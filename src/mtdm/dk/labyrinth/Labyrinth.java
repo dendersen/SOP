@@ -1,7 +1,6 @@
 package mtdm.dk.labyrinth;
 
 import processing.core.PGraphics;
-import processing.core.PImage;
 
 public class Labyrinth{
   /**@param labyrinthTile [x][y]: true = path*/
@@ -11,7 +10,6 @@ public class Labyrinth{
   /**@param width the height of the labyrinth in tiles*/
   public int height;
   PGraphics g;
-  public PImage path;
   /**
    * @param maze each string represents different Y all strings must be the same length
    * @param regex chars that are to be considered paths, may not be special characters or å
@@ -21,7 +19,6 @@ public class Labyrinth{
     width = maze[0].length();
     height = maze.length;
     labyrinthTile = new boolean[maze[0].length()][maze.length];
-    
     char[] chars = regex.toCharArray();
     for (int j = 0; j < height; j++){
       if (!regex.contains(" ")){
@@ -56,5 +53,8 @@ public class Labyrinth{
    */
   public boolean isPath(int x,int y){
     return labyrinthTile[x][y];
+  }
+  public void drawPath(int x, int y){
+    
   }
 }

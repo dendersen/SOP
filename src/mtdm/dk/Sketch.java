@@ -2,6 +2,7 @@ package mtdm.dk;
 
 import processing.core.PApplet;
 import processing.core.PGraphics;
+import processing.core.PImage;
 import mtdm.dk.labyrinth.Labyrinth;
 import mtdm.dk.labyrinth.LabyrinthGen;
 
@@ -13,6 +14,8 @@ public class Sketch extends PApplet{
   static int sqrWidth;
   static int sqrHeigth;
   static Labyrinth maze = LabyrinthGen.maze(g);
+  PImage path;
+  PImage wall;
 
   public void main() {
     PApplet.main("Sketch");
@@ -20,6 +23,7 @@ public class Sketch extends PApplet{
   
   @Override
   public void settings() {
+    path = this.loadImage("icons/path.png");
     size(width, heigth);
   }
   
@@ -33,13 +37,14 @@ public class Sketch extends PApplet{
   @Override
   public void draw(){
     run();
+    loadImage(DXF);
   }
-  public static void run(){
+  public void run(){
     for(int i = 0; i < maze.width;i++){
       for(int j = 0; j < maze.height;j++){
         if (maze.isPath(i,j)){
           g.fill(255,0,0);
-          g.image(maze.path, i, j);
+          g.image(g, i, j);
         }else{
           g.fill(0,0,255);
         }
