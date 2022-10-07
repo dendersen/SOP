@@ -12,7 +12,7 @@ public class Sketch extends PApplet{
   static PGraphics g;
   static int sqrWidth;
   static int sqrHeigth;
-  static Labyrinth maze = LabyrinthGen.maze();
+  static Labyrinth maze = LabyrinthGen.maze(g);
 
   public void main() {
     PApplet.main("Sketch");
@@ -39,6 +39,7 @@ public class Sketch extends PApplet{
       for(int j = 0; j < maze.height;j++){
         if (maze.isPath(i,j)){
           g.fill(255,0,0);
+          g.image(maze.path, i, j);
         }else{
           g.fill(0,0,255);
         }

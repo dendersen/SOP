@@ -1,7 +1,9 @@
 package mtdm.dk.labyrinth;
 
+import processing.core.PGraphics;
+
 public class LabyrinthGen {
-  public static Labyrinth maze(){
+  public static Labyrinth maze(PGraphics g){
     String regex = " ";
     String[] out = {
       "█ ████████████",
@@ -13,6 +15,6 @@ public class LabyrinthGen {
       "█          █ █",
       "██████████████"
     };
-    return new Labyrinth(out, regex);
+    return new Labyrinth(out, regex,g);
   }
 }
