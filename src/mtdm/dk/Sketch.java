@@ -3,15 +3,16 @@ package mtdm.dk;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import mtdm.dk.labyrinth.Labyrinth;
+import mtdm.dk.labyrinth.LabyrinthGen;
 
 public class Sketch extends PApplet{
 
-  static int width = 1000;
-  static int heigth = 1000;
+  static int width = 800;
+  static int heigth = 600;
   static PGraphics g;
   static int sqrWidth;
   static int sqrHeigth;
-  static Labyrinth maze = new Labyrinth(g,100,50);
+  static Labyrinth maze = LabyrinthGen.maze();
 
   public void main() {
     PApplet.main("Sketch");

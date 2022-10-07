@@ -10,14 +10,22 @@ public class Labyrinth{
   PGraphics g;
   /**
    * @param maze each string represents different Y all strings must be the same length
-   * @param regex chars that are to be considered paths, may not be special characters
+   * @param regex chars that are to be considered paths, may not be special characters or å
    */
   public Labyrinth(String[] maze,String regex){
+    labyrinthTile = new boolean[maze[0].length()][maze.length];
     char[] chars = regex.toCharArray();
-    for (int j = 0; j < maze.length; j++){
-      maze[j].replace(" ", "\\\\");
+    width = maze[0].length();
+    height = maze.length;
+    for (int j = 0; j < height; j++){
+      if (!regex.contains(" ")){
+        maze[j].replace(" ", "å");
+      }
       for (int i = 0; i < chars.length; i++){
         maze[j] = maze[j].replace(chars[i], ' ');
+      }
+      for (int i = 0; i < width; i++){
+        labyrinthTile[i][j] = maze[j].charAt(i) == ' ';
       }
     }
   }
