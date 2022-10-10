@@ -5,17 +5,19 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 import mtdm.dk.labyrinth.Labyrinth;
 import mtdm.dk.labyrinth.LabyrinthGen;
+import mtdm.dk.solvers.WallFollower;
 
 public class Sketch extends PApplet{
 
-  static int width = 800;
-  static int heigth = 600;
+  final int width = 700;
+  final int heigth = 400;
   static PGraphics g;
   static int sqrWidth;
   static int sqrHeigth;
   static Labyrinth maze = LabyrinthGen.maze(g);
   PImage path;
   PImage wall;
+  WallFollower solver = new WallFollower(maze, 1, 1, maze.width-1, maze.height-1);
 
   public void main() {
     PApplet.main("Sketch");
@@ -36,20 +38,22 @@ public class Sketch extends PApplet{
   }
   @Override
   public void draw(){
-    run();
-    loadImage(DXF);
+    drawLaborinth();
+    move();
   }
-  public void run(){
+  public void drawLaborinth(){
     for(int i = 0; i < maze.width;i++){
       for(int j = 0; j < maze.height;j++){
         if (maze.isPath(i,j)){
-          g.fill(255,0,0);
-          g.image(g, i, j);
+          g.image(path, i*sqrWidth, j*sqrHeigth,sqrWidth,sqrHeigth);
         }else{
           g.fill(0,0,255);
+          g.rect(i*sqrWidth, j*sqrHeigth, sqrWidth, sqrHeigth);
         }
-        g.rect(i*sqrWidth, j*sqrHeigth, sqrWidth, sqrHeigth);
       }
     }
+  }
+  public void move(){
+    solver.move(1);
   }
 }

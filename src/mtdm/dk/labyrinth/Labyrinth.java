@@ -46,15 +46,11 @@ public class Labyrinth{
     }
   }
   /**
-   * 
    * @param x
    * @param y
    * @return whether or not the given coordinates contain a path
    */
   public boolean isPath(int x,int y){
     return labyrinthTile[x][y];
-  }
-  public void drawPath(int x, int y){
-    
   }
 }
