@@ -1,5 +1,7 @@
 package mtdm.dk.labyrinth;
 
+import java.util.Random;
+
 import processing.core.PGraphics;
 
 public class Labyrinth{
@@ -51,6 +53,19 @@ public class Labyrinth{
    * @return whether or not the given coordinates contain a path
    */
   public boolean isPath(int x,int y){
+    if(x > width-1 || x < 0 || y > height-1 || y < 0){
+      return false;
+    }
     return labyrinthTile[x][y];
+  }
+  public int[] findPath(){
+    while (true){
+      int x = (int) Math.floor(Math.random()*width);
+      int y = (int) Math.floor(Math.random()*height);
+      if(isPath(x, y)){
+        int[] pos = {x,y};
+        return pos;
+      }
+    }
   }
 }
