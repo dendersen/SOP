@@ -16,6 +16,7 @@ public class recursiveSolver {
   int startY;
   ArrayList<Point> accesedPoints = new ArrayList<Point>();
   ArrayList<Point> currentPoints = new ArrayList<Point>();
+  boolean begun = false;
   boolean succes = false;
   
   public recursiveSolver(Labyrinth labyrinth, int startX, int startY,int endX, int endY){
@@ -29,6 +30,10 @@ public class recursiveSolver {
     currentPoints.add(new Point(startY,startX));
   }
   public void move(int steps){
+    if (!begun){
+      begun = true;
+      return;
+    }
     for (int i = 0; i < steps && !succes;i++){
       movement();
     }
@@ -55,6 +60,18 @@ public class recursiveSolver {
     newPoints.add(new Point(current.X,current.Y-1));
   }
   public void draw(PGraphics g,  int sqrWidth, int sqrHeigth){
+    g.fill(80,0,0);
+    g.rect(startX*sqrWidth, startY*sqrHeigth, sqrWidth, sqrHeigth);
+    g.fill(230,0,0);
+    g.rect(goalX*sqrWidth, goalY*sqrHeigth, sqrWidth, sqrHeigth);
     
+    g.fill(255,0 ,10,255/2);
+    for (int i = 0; i < accesedPoints.size();i++){
+      g.rect(accesedPoints.get(i).X * sqrWidth, accesedPoints.get(i).Y*sqrHeigth, sqrWidth, sqrHeigth);
+    }
+    g.fill(255,0 ,10,255/2);
+    for (int i = 0; i < currentPoints.size();i++){
+      g.rect(currentPoints.get(i).X * sqrWidth, currentPoints.get(i).Y*sqrHeigth, sqrWidth, sqrHeigth);
+    }
   }
 }
