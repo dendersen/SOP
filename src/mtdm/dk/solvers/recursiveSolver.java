@@ -38,8 +38,9 @@ public class recursiveSolver {
     while(currentPoints.size() > 0){
       Point current = currentPoints.remove(0);
       if (checkPoint(current)){
-        addPrepPoints(newPoints, current);
+        newPoints = addPrepPoints(newPoints, current);
       }
+      accesedPoints.add(current);
     }
     currentPoints = newPoints;
   }
@@ -48,11 +49,12 @@ public class recursiveSolver {
     && 
     !accesedPoints.contains(current);
   }
-  private void addPrepPoints(ArrayList<Point> newPoints, Point current) {
+  private ArrayList<Point> addPrepPoints(ArrayList<Point> newPoints, Point current) {
     newPoints.add(new Point(current.X+1,current.Y));
     newPoints.add(new Point(current.X-1,current.Y));
     newPoints.add(new Point(current.X,current.Y+1));
     newPoints.add(new Point(current.X,current.Y-1));
+    return newPoints;
   }
   public void draw(PGraphics g,  int sqrWidth, int sqrHeigth){
     
