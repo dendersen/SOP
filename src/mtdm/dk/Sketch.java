@@ -5,7 +5,6 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 import mtdm.dk.labyrinth.Labyrinth;
 import mtdm.dk.labyrinth.LabyrinthGen;
-import mtdm.dk.solvers.WallFollower;
 import mtdm.dk.solvers.multiSolver;
 
 public class Sketch extends PApplet{
@@ -28,9 +27,9 @@ public class Sketch extends PApplet{
   public void settings() {
     path = this.loadImage("icons/path.png");
     size(width, heigth);
-    int[] start = maze.findPath();
-    int[] end = maze.findPath();
-    solver = new multiSolver((byte) 0,maze, start[0], start[1], end[0], end[1]);
+    Point start = maze.findPath();
+    Point end = maze.findPath();
+    solver = new multiSolver((byte) 1,maze, start.X, start.Y, end.X, end.Y);
   }
   
   @Override
@@ -39,7 +38,7 @@ public class Sketch extends PApplet{
     sqrHeigth = heigth/maze.height;
     g = getGraphics();
     strokeWeight(2);
-    frameRate(20);
+    frameRate(10);
   }
   @Override
   public void draw(){
@@ -54,7 +53,7 @@ public class Sketch extends PApplet{
         if (maze.isPath(i,j)){
           g.image(path, i*sqrWidth, j*sqrHeigth,sqrWidth,sqrHeigth);
         }else{
-          g.fill(0,0,255);
+          g.fill(75);
           g.rect(i*sqrWidth, j*sqrHeigth, sqrWidth, sqrHeigth);
         }
       }

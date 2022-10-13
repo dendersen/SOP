@@ -1,7 +1,6 @@
 package mtdm.dk.labyrinth;
 
-import java.util.Random;
-
+import mtdm.dk.Point;
 import processing.core.PGraphics;
 
 public class Labyrinth{
@@ -58,12 +57,20 @@ public class Labyrinth{
     }
     return labyrinthTile[x][y];
   }
-  public int[] findPath(){
+  public Point findPath(){
     while (true){
       int x = (int) Math.floor(Math.random()*width);
       int y = (int) Math.floor(Math.random()*height);
       if(isPath(x, y)){
-        int[] pos = {x,y};
+        Point pos = new Point(x, y);
+        return pos;
+      }
+    }
+  }
+  public Point findPath(Point notSame){
+    while (true){
+      Point pos = findPath();
+      if(isPath(pos.X, pos.Y) && !(notSame.X == pos.X && notSame.Y == pos.Y)){
         return pos;
       }
     }
