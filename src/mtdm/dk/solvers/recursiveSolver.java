@@ -67,11 +67,11 @@ public class recursiveSolver {
     g.fill(230,0,0);
     g.rect(goalX*sqrWidth, goalY*sqrHeigth, sqrWidth, sqrHeigth);
     
-    g.fill(255,0 ,10,255/2);
+    g.fill(255,0 ,10,127.5f);
     for (int i = 0; i < accesedPoints.size();i++){
       g.rect(accesedPoints.get(i).X * sqrWidth, accesedPoints.get(i).Y*sqrHeigth, sqrWidth, sqrHeigth);
     }
-    g.fill(255,0 ,10,255/2);
+    g.fill(255,0 ,10,127.5f);
     for (int i = 0; i < currentPoints.size();i++){
       g.rect(currentPoints.get(i).X * sqrWidth, currentPoints.get(i).Y*sqrHeigth, sqrWidth, sqrHeigth);
     }
