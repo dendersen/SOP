@@ -8,6 +8,5 @@ public class test {
     String[] processingArgs = {"Sketch"};
     draw = new Sketch();
     PApplet.runSketch(processingArgs,draw);
-    
   }
 }
