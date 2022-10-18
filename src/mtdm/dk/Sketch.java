@@ -10,28 +10,31 @@ import mtdm.dk.solvers.multiSolver;
 public class Sketch extends PApplet{
 
   final int width = 700;
-  final int heigth = 400;
+  final int heigth = 700;
   static PGraphics g;
   static int sqrWidth;
   static int sqrHeigth;
-  static Labyrinth maze = LabyrinthGen.maze(g);
+  static Labyrinth maze;
   PImage path;
   PImage wall;
-  multiSolver solver;;
+  multiSolver solver;
+  byte solverID;
 
+  public Sketch(byte solverID, byte MaksimumBranches){
+    this.solverID = solverID;
+    maze = LabyrinthGen.maze(g, 20, 20, MaksimumBranches);
+    Point start = maze.findPath();
+    Point end = maze.findPath();
+    solver = new multiSolver(solverID,maze, start.X, start.Y, end.X, end.Y);
+  }
   public void main() {
     PApplet.main("Sketch");
   }
-  
   @Override
   public void settings() {
     path = this.loadImage("icons/path.png");
     size(width, heigth);
-    Point start = maze.findPath();
-    Point end = maze.findPath();
-    solver = new multiSolver((byte) 1,maze, start.X, start.Y, end.X, end.Y);
   }
-  
   @Override
   public void setup() {
     sqrWidth = width/maze.width;
@@ -39,14 +42,17 @@ public class Sketch extends PApplet{
     g = getGraphics();
     strokeWeight(2);
     frameRate(10);
+    System.out.println(maze.toString());
+    maze.saveLaborinth("@");
   }
+  
   @Override
   public void draw(){
     drawLaborinth();
     move();
     drawSolver();
   }
-  public void drawLaborinth(){
+  private void drawLaborinth(){
     for(int i = 0; i < maze.width;i++){
       for(int j = 0; j < maze.height;j++){
         g.strokeWeight(0);
@@ -59,10 +65,13 @@ public class Sketch extends PApplet{
       }
     }
   }
-  public void move(){
+  private void move(){
     solver.move(1);
   }
-  public void drawSolver(){
+  private void drawSolver(){
     solver.draw(g,sqrWidth,sqrHeigth);
+  }
+  public boolean goal(){
+    return solver.complete();
   }
 }

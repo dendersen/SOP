@@ -38,4 +38,16 @@ public class multiSolver {
       }break;
     }
   }
+  public boolean complete(){
+    switch(this.ID){
+      case 0:{
+        return wall.X == wall.goalX && wall.Y == wall.goalY;
+      }
+      case 1:{
+        return recurse.end != -1;
+      }
+      default:
+      return false;
+    }
+  }
 }

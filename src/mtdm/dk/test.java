@@ -1,12 +1,27 @@
 package mtdm.dk;
 
-import processing.core.PApplet;
+import java.time.Duration;
+import java.time.Instant;
 
+import processing.core.PApplet;
 public class test {
   static Sketch draw;
-  public static void main(String[] args) {
+  static Sketch draw2;
+  public static void main(String[] args) throws InterruptedException {
+    Instant start = Instant.now();
+
     String[] processingArgs = {"Sketch"};
-    draw = new Sketch();
+    draw = new Sketch((byte) 1,(byte) 2);
     PApplet.runSketch(processingArgs,draw);
+    
+    //your code
+    while(!draw.goal()){
+      Thread.sleep(2);
+    }
+    if(draw.goal()){
+      Instant end = Instant.now();
+      Duration timeElapsed = Duration.between(start, end);
+      System.out.println("Time taken: "+ timeElapsed.toMillis() +" milliseconds");
+    }
   }
 }

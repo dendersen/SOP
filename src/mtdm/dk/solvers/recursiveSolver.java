@@ -18,6 +18,7 @@ public class recursiveSolver {
   ArrayList<Point> currentPoints = new ArrayList<Point>();
   boolean begun = false;
   boolean succes = false;
+  int end = -1;
   
   public recursiveSolver(Labyrinth labyrinth, int startX, int startY,int endX, int endY){
     this.maze = labyrinth;
@@ -27,53 +28,93 @@ public class recursiveSolver {
     this.startY = startY;
     this.goalX = endX;
     this.goalY = endY;
-    currentPoints.add(new Point(startY,startX));
+    currentPoints.add(new Point(startX,startY));
   }
   public void move(int steps){
     if (!begun){
       begun = true;
       return;
     }
-    for (int i = 0; i < steps && !succes;i++){
-      movement();
+    if(finished()){
+      end = finishedPoint();
+    }else{
+      for (int i = 0; i < steps && !succes;i++){
+        movement();
+      }
     }
   }
   private void movement(){
-    ArrayList<Point> newPoints = new ArrayList<Point>(); 
+      ArrayList<Point> newPoints = new ArrayList<Point>(); 
     while(currentPoints.size() > 0){
       Point current = currentPoints.remove(0);
       if (checkPoint(current)){
         newPoints = addPrepPoints(newPoints, current);
+        accesedPoints.add(current);
       }
-      accesedPoints.add(current);
     }
     currentPoints = newPoints;
   }
   private boolean checkPoint(Point current) {
-    return maze.isPath(current.X, current.Y)
-    && 
-    !accesedPoints.contains(current);
+    boolean bool = true;
+    for (int i = 0; i < accesedPoints.size() && bool;i++){
+      bool = !(accesedPoints.get(i).X == current.X && accesedPoints.get(i).Y == current.Y);
+    }
+    return maze.isPath(current.X, current.Y) && bool;
   }
   private ArrayList<Point> addPrepPoints(ArrayList<Point> newPoints, Point current) {
-    newPoints.add(new Point(current.X+1,current.Y));
-    newPoints.add(new Point(current.X-1,current.Y));
-    newPoints.add(new Point(current.X,current.Y+1));
-    newPoints.add(new Point(current.X,current.Y-1));
+    newPoints.add(new Point(current.X+1,current.Y,current));
+    newPoints.add(new Point(current.X-1,current.Y,current));
+    newPoints.add(new Point(current.X,current.Y+1,current));
+    newPoints.add(new Point(current.X,current.Y-1,current));
     return newPoints;
   }
   public void draw(PGraphics g,  int sqrWidth, int sqrHeigth){
-    g.fill(80,0,0);
+    if (this.end == -1){
+      
+      g.fill(0, 255, 0,200f);
+      for (int i = 0; i < currentPoints.size();i++){
+        g.rect(currentPoints.get(i).X * sqrWidth, currentPoints.get(i).Y*sqrHeigth, sqrWidth, sqrHeigth);
+      }
+      g.fill(0,0 ,255,200f);
+      for (int i = 0; i < accesedPoints.size();i++){
+        g.rect(accesedPoints.get(i).X * sqrWidth, accesedPoints.get(i).Y*sqrHeigth, sqrWidth, sqrHeigth);
+      }
+    }else{
+      g.fill(0,0 ,255,100f);
+      for (int i = 0; i < accesedPoints.size();i++){
+        g.rect(accesedPoints.get(i).X * sqrWidth, accesedPoints.get(i).Y*sqrHeigth, sqrWidth, sqrHeigth);
+      }
+      // g.fill(0, 255, 0,100f);
+      // for (int i = 0; i < currentPoints.size();i++){
+      //   g.rect(currentPoints.get(i).X * sqrWidth, currentPoints.get(i).Y*sqrHeigth, sqrWidth, sqrHeigth);
+      // }
+      drawRecurse(g,currentPoints.get(end),sqrWidth,sqrHeigth);
+    }
+    g.fill(255,0,0);
     g.rect(startX*sqrWidth, startY*sqrHeigth, sqrWidth, sqrHeigth);
-    g.fill(230,0,0);
+    g.fill(0,0,0);
     g.rect(goalX*sqrWidth, goalY*sqrHeigth, sqrWidth, sqrHeigth);
-    
-    g.fill(255,0 ,10,127.5f);
-    for (int i = 0; i < accesedPoints.size();i++){
-      g.rect(accesedPoints.get(i).X * sqrWidth, accesedPoints.get(i).Y*sqrHeigth, sqrWidth, sqrHeigth);
-    }
-    g.fill(255,0 ,10,127.5f);
+  }
+  private void drawRecurse(PGraphics g,Point start,int sqrWidth,int sqrHeigth) {
+    if (start.path.X == -1) return;
+    drawRecurse(g, start.path, sqrWidth, sqrHeigth);
+    g.fill(255);
+    g.rect(start.X * sqrWidth, start.Y*sqrHeigth, sqrWidth, sqrHeigth);
+  }
+  private boolean finished(){
     for (int i = 0; i < currentPoints.size();i++){
-      g.rect(currentPoints.get(i).X * sqrWidth, currentPoints.get(i).Y*sqrHeigth, sqrWidth, sqrHeigth);
+      if (currentPoints.get(i).X == goalX && currentPoints.get(i).Y == goalY){
+        return true;
+      }
     }
+    return false;
+  }
+  private int finishedPoint(){
+    for (int i = 0; i < currentPoints.size();i++){
+      if (currentPoints.get(i).X == goalX && currentPoints.get(i).Y == goalY){
+        return i;
+      }
+    }
+    return -1;
   }
 }

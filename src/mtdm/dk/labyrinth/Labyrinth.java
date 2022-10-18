@@ -1,5 +1,11 @@
 package mtdm.dk.labyrinth;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+
 import mtdm.dk.Point;
 import processing.core.PGraphics;
 
@@ -75,4 +81,71 @@ public class Labyrinth{
       }
     }
   }
+
+  /**
+   * @param X
+   * @param Y
+   * @param path whether or not i will become a path
+   * @return succes
+   */
+  public boolean modifyLaborinth(int X, int Y, boolean path){
+    if(X < 0 || Y < 0) return false;
+    if(X >= width || Y >= height) return false;
+
+    labyrinthTile[X][Y] = path;
+    return true;
+  }
+
+  public String toString(){
+    String out = "{\n";
+    for (int i = 0; i < width; i++){
+      String temp = "";
+      for (int j = 0; j < height; j++){
+        temp += (isPath(i,j) ? " ":"█");
+      }
+      out += "\"" + temp + "\",";
+      out += "\n";
+    }
+    return out + "}";
+  }
+
+  public void saveLaborinth(String regex){
+    String maze = toString().replaceAll("█", regex);
+    String data = "";
+    File file = new File("Save.txt");
+    try (Scanner myReader = new Scanner(file)) {
+      while (myReader.hasNextLine()) {
+        data += myReader.nextLine();
+        data += "\n";
+      }
+    } catch (FileNotFoundException e) {
+        try {
+          file.createNewFile();
+        } catch (IOException e1) {
+          // TODO Auto-generated catch block
+          e1.printStackTrace();
+        }
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+      try {
+        FileWriter myWriter = new FileWriter("Save.txt");
+        myWriter.write(data + "\n\n" + maze);
+        myWriter.close();
+        System.out.println("Successfully wrote to the file.");
+      } catch (IOException e) {
+        System.out.println("An error occurred.");
+        e.printStackTrace();
+      }
+  }
+
+  // public int sum(){
+  //   int out = 0; 
+  //   for (int i = 0; i < width; i++){
+  //     for (int j = 0; j < width; j++){
+
+  //     }
+  //   }
+  //   return 
+  // }
 }
