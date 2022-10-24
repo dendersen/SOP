@@ -71,6 +71,7 @@ public class Labyrinth{
     }
   }
   public Point findPath(){
+    
     return findPath(true);
   }
   private Point brute (int x,int y, boolean up){

@@ -28,7 +28,7 @@ public class Sketch extends PApplet{
     maze = LabyrinthGen.maze(g, Width, Height, MaksimumBranches);
     System.out.println("labyrinth finished");
     Point start = maze.findPath();
-    Point end = maze.findPath();
+    Point end = maze.findPath(start);
     solver = new multiSolver(solverID,maze, start.X, start.Y, end.X, end.Y);
   }
   public void main() {
@@ -43,7 +43,7 @@ public class Sketch extends PApplet{
   }
   @Override
   public void setup() {
-    surface.setResizable(true);
+    // surface.setResizable(true);
     SetSquares();
     g = getGraphics();
     strokeWeight(2);
