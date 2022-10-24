@@ -37,7 +37,7 @@ public class Sketch extends PApplet{
   @Override
   public void settings() {
     path = this.loadImage("icons/path.png");
-    size(500, 500);
+    size(1000, 1000);
     Height = height;
     Width = width;
   }

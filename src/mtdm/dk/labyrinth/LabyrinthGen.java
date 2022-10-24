@@ -23,9 +23,9 @@ public class LabyrinthGen {
   
   public static Labyrinth maze(PGraphics g,int width, int height, byte density){
     String[] out = new String[height];
-    for (int i = 0; i < width; i++){
+    for (int i = 0; i < height; i++){
       String temp = "";
-      for (int j = 0; j < height; j++){
+      for (int j = 0; j < width; j++){
         temp += "a";
       }
       out[i] = temp;
