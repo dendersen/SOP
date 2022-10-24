@@ -9,20 +9,24 @@ import mtdm.dk.solvers.multiSolver;
 
 public class Sketch extends PApplet{
 
-  final int width = 700;
-  final int heigth = 700;
   static PGraphics g;
-  static int sqrWidth;
-  static int sqrHeigth;
+  static double sqrWidth;
+  static double sqrHeigth;
   static Labyrinth maze;
   PImage path;
   PImage wall;
   multiSolver solver;
   byte solverID;
+  int Height;
+  int Width;
 
-  public Sketch(byte solverID, byte MaksimumBranches){
+  public Sketch(byte solverID, byte MaksimumBranches,int Width,int Height){
     this.solverID = solverID;
-    maze = LabyrinthGen.maze(g, 20, 20, MaksimumBranches);
+    if(Width * Height > 800){
+      System.out.println("creating labyrinth, this might take a while");
+    }
+    maze = LabyrinthGen.maze(g, Width, Height, MaksimumBranches);
+    System.out.println("labyrinth finished");
     Point start = maze.findPath();
     Point end = maze.findPath();
     solver = new multiSolver(solverID,maze, start.X, start.Y, end.X, end.Y);
@@ -33,21 +37,28 @@ public class Sketch extends PApplet{
   @Override
   public void settings() {
     path = this.loadImage("icons/path.png");
-    size(width, heigth);
+    size(500, 500);
+    Height = height;
+    Width = width;
   }
   @Override
   public void setup() {
-    sqrWidth = width/maze.width;
-    sqrHeigth = heigth/maze.height;
+    surface.setResizable(true);
+    SetSquares();
     g = getGraphics();
     strokeWeight(2);
-    frameRate(10);
+    frameRate(1000);
     System.out.println(maze.toString());
     maze.saveLaborinth("@");
   }
   
   @Override
   public void draw(){
+    if (Height  != height || Width != height){
+      Height = height;
+      Width = width;
+      SetSquares();
+    }
     drawLaborinth();
     move();
     drawSolver();
@@ -57,13 +68,17 @@ public class Sketch extends PApplet{
       for(int j = 0; j < maze.height;j++){
         g.strokeWeight(0);
         if (maze.isPath(i,j)){
-          g.image(path, i*sqrWidth, j*sqrHeigth,sqrWidth,sqrHeigth);
+          g.image(path, (float) (i*sqrWidth),(float) (j*sqrHeigth),(float)sqrWidth, (float)sqrHeigth);
         }else{
           g.fill(75);
-          g.rect(i*sqrWidth, j*sqrHeigth, sqrWidth, sqrHeigth);
+          g.rect((float) (i*sqrWidth),(float) (j*sqrHeigth),(float) sqrWidth, (float)sqrHeigth);
         }
       }
     }
+  }
+  private void SetSquares(){
+    sqrWidth = width / ((double)maze.width);
+    sqrHeigth = height/((double)maze.height);
   }
   private void move(){
     solver.move(1);

@@ -11,10 +11,9 @@ public class test {
     Instant start = Instant.now();
 
     String[] processingArgs = {"Sketch"};
-    draw = new Sketch((byte) 1,(byte) 2);
+    draw = new Sketch((byte) 1,(byte) 1,100,100);
     PApplet.runSketch(processingArgs,draw);
     
-    //your code
     while(!draw.goal()){
       Thread.sleep(2);
     }

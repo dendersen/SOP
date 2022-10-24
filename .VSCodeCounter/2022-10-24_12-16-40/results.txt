@@ -1,0 +1,56 @@
+Date : 2022-10-24 12:16:40
+Directory : c:\.programering\SOP
+Total : 21 files,  938 codes, 41 comments, 67 blanks, all 1046 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| Java     |         20 |        928 |         41 |         58 |      1,027 |
+| Markdown |          1 |         10 |          0 |          9 |         19 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++----------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                           | files      | code       | comment    | blank      | total      |
++----------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                              |         21 |        938 |         41 |         67 |      1,046 |
+| bin                                                            |         10 |        312 |          0 |         10 |        322 |
+| bin\mtdm                                                       |         10 |        312 |          0 |         10 |        322 |
+| bin\mtdm\dk                                                    |         10 |        312 |          0 |         10 |        322 |
+| bin\mtdm\dk\labyrinth                                          |          2 |         87 |          0 |          3 |         90 |
+| bin\mtdm\dk\solvers                                            |          3 |        110 |          0 |          7 |        117 |
+| src                                                            |         10 |        616 |         41 |         48 |        705 |
+| src\mtdm                                                       |         10 |        616 |         41 |         48 |        705 |
+| src\mtdm\dk                                                    |         10 |        616 |         41 |         48 |        705 |
+| src\mtdm\dk\labyrinth                                          |          2 |        167 |         32 |         17 |        216 |
+| src\mtdm\dk\solvers                                            |          3 |        310 |          8 |         13 |        331 |
++----------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++----------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                       | language | code       | comment    | blank      | total      |
++----------------------------------------------------------------+----------+------------+------------+------------+------------+
+| c:\.programering\SOP\README.md                                 | Markdown |         10 |          0 |          9 |         19 |
+| c:\.programering\SOP\bin\mtdm\dk\Main.class                    | Java     |         23 |          0 |          0 |         23 |
+| c:\.programering\SOP\bin\mtdm\dk\Point.class                   | Java     |         15 |          0 |          0 |         15 |
+| c:\.programering\SOP\bin\mtdm\dk\Sketch.class                  | Java     |         47 |          0 |          0 |         47 |
+| c:\.programering\SOP\bin\mtdm\dk\bigO.class                    | Java     |          6 |          0 |          0 |          6 |
+| c:\.programering\SOP\bin\mtdm\dk\labyrinth\Labyrinth.class     | Java     |         58 |          0 |          3 |         61 |
+| c:\.programering\SOP\bin\mtdm\dk\labyrinth\LabyrinthGen.class  | Java     |         29 |          0 |          0 |         29 |
+| c:\.programering\SOP\bin\mtdm\dk\solvers\WallFollower.class    | Java     |         52 |          0 |          7 |         59 |
+| c:\.programering\SOP\bin\mtdm\dk\solvers\multiSolver.class     | Java     |         20 |          0 |          0 |         20 |
+| c:\.programering\SOP\bin\mtdm\dk\solvers\recursiveSolver.class | Java     |         38 |          0 |          0 |         38 |
+| c:\.programering\SOP\bin\mtdm\dk\test.class                    | Java     |         24 |          0 |          0 |         24 |
+| c:\.programering\SOP\src\mtdm\dk\Main.java                     | Java     |         21 |          1 |          5 |         27 |
+| c:\.programering\SOP\src\mtdm\dk\Point.java                    | Java     |         20 |          0 |          2 |         22 |
+| c:\.programering\SOP\src\mtdm\dk\Sketch.java                   | Java     |         72 |          0 |          5 |         77 |
+| c:\.programering\SOP\src\mtdm\dk\bigO.java                     | Java     |          4 |          0 |          2 |          6 |
+| c:\.programering\SOP\src\mtdm\dk\labyrinth\Labyrinth.java      | Java     |        114 |         28 |         10 |        152 |
+| c:\.programering\SOP\src\mtdm\dk\labyrinth\LabyrinthGen.java   | Java     |         53 |          4 |          7 |         64 |
+| c:\.programering\SOP\src\mtdm\dk\solvers\WallFollower.java     | Java     |        148 |          4 |          6 |        158 |
+| c:\.programering\SOP\src\mtdm\dk\solvers\multiSolver.java      | Java     |         51 |          0 |          2 |         53 |
+| c:\.programering\SOP\src\mtdm\dk\solvers\recursiveSolver.java  | Java     |        111 |          4 |          5 |        120 |
+| c:\.programering\SOP\src\mtdm\dk\test.java                     | Java     |         22 |          0 |          4 |         26 |
+| Total                                                          |          |        938 |         41 |         67 |      1,046 |
++----------------------------------------------------------------+----------+------------+------------+------------+------------+

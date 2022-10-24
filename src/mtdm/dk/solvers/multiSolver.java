@@ -28,7 +28,7 @@ public class multiSolver {
       }break;
     }
   }
-  public void draw(PGraphics g,int sqrWidth, int sqrHeigth){
+  public void draw(PGraphics g,double sqrWidth, double sqrHeigth){
     switch(this.ID){
       case 0:{
         wall.draw(g, sqrWidth,sqrHeigth);

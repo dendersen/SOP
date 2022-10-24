@@ -93,16 +93,16 @@ public class WallFollower {
   private void turnWithClock() {
     orientation = (byte) ((orientation+1)%4);
   }
-  public void draw(PGraphics g,int sqrWidth,int sqrHeigth){
+  public void draw(PGraphics g,double sqrWidth,double sqrHeigth){
     g.strokeWeight(5);
     g.stroke(0, 255, 0);
     for (int i = 1; i < path.size();i++){
       Integer[] point1 = path.get(i);
       Integer[] point2 = path.get(i-1);
-      int offsetX1 = 0;
-      int offsetY1 = 0;
-      int offsetX2 = 0;
-      int offsetY2 = 0;
+      double offsetX1 = 0;
+      double offsetY1 = 0;
+      double offsetX2 = 0;
+      double offsetY2 = 0;
       
       switch (point1[2]) {
         case 0:
@@ -141,18 +141,18 @@ public class WallFollower {
         break;
       }
       g.line(
-        (point1[0]*sqrWidth) + offsetX1, 
-        (point1[1]*sqrHeigth) + offsetY1, 
-        (point2[0]*sqrWidth) + offsetX2,
-        (point2[1]*sqrHeigth) + offsetY2
+        (float) ((point1[0]*sqrWidth) + offsetX1), 
+        (float) ((point1[1]*sqrHeigth) + offsetY1), 
+        (float) ((point2[0]*sqrWidth) + offsetX2),
+        (float) ((point2[1]*sqrHeigth) + offsetY2)
       );
     }//draw start and end points
     {
       g.strokeWeight(12);
       g.stroke(0,255,255);
-      g.point(startX*sqrWidth + sqrWidth/2, startY*sqrHeigth + sqrHeigth/2);
+      g.point((float) (startX*sqrWidth + sqrWidth/2),(float) (startY*sqrHeigth + sqrHeigth/2));
       g.stroke(255,255,255);
-      g.point(goalX*sqrWidth + sqrWidth/2, goalY*sqrHeigth + sqrHeigth/2);
+      g.point((float) (goalX*sqrWidth + sqrWidth/2),(float) (goalY*sqrHeigth + sqrHeigth/2));
     }
   }
 }

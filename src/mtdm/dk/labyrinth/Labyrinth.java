@@ -63,19 +63,31 @@ public class Labyrinth{
     }
     return labyrinthTile[x][y];
   }
+  public Point findPath(boolean up){
+    if (up){
+      return brute(width,height,true);
+    }else{
+      return brute(0,0,false);
+    }
+  }
   public Point findPath(){
-    while (true){
-      int x = (int) Math.floor(Math.random()*width);
-      int y = (int) Math.floor(Math.random()*height);
-      if(isPath(x, y)){
-        Point pos = new Point(x, y);
-        return pos;
+    return findPath(true);
+  }
+  private Point brute (int x,int y, boolean up){
+    while(true){
+      if (isPath(x, y)){
+        return new Point(x,y);
+      }
+      if (up){
+        return brute(x-1,y-1,true);
+      }else{
+        return brute(x+1,y+1,false);
       }
     }
   }
   public Point findPath(Point notSame){
     while (true){
-      Point pos = findPath();
+      Point pos = brute(0,0,false);
       if(isPath(pos.X, pos.Y) && !(notSame.X == pos.X && notSame.Y == pos.Y)){
         return pos;
       }

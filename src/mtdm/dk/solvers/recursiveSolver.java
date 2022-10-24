@@ -68,21 +68,21 @@ public class recursiveSolver {
     newPoints.add(new Point(current.X,current.Y-1,current));
     return newPoints;
   }
-  public void draw(PGraphics g,  int sqrWidth, int sqrHeigth){
+  public void draw(PGraphics g,  double sqrWidth, double sqrHeigth){
     if (this.end == -1){
       
       g.fill(0, 255, 0,200f);
       for (int i = 0; i < currentPoints.size();i++){
-        g.rect(currentPoints.get(i).X * sqrWidth, currentPoints.get(i).Y*sqrHeigth, sqrWidth, sqrHeigth);
+        g.rect((float) (currentPoints.get(i).X * sqrWidth),(float) (currentPoints.get(i).Y*sqrHeigth), (float) sqrWidth,(float) sqrHeigth);
       }
       g.fill(0,0 ,255,200f);
       for (int i = 0; i < accesedPoints.size();i++){
-        g.rect(accesedPoints.get(i).X * sqrWidth, accesedPoints.get(i).Y*sqrHeigth, sqrWidth, sqrHeigth);
+        g.rect((float) (accesedPoints.get(i).X * sqrWidth),(float) (accesedPoints.get(i).Y*sqrHeigth), (float) sqrWidth,(float) sqrHeigth);
       }
     }else{
       g.fill(0,0 ,255,100f);
       for (int i = 0; i < accesedPoints.size();i++){
-        g.rect(accesedPoints.get(i).X * sqrWidth, accesedPoints.get(i).Y*sqrHeigth, sqrWidth, sqrHeigth);
+        g.rect((float) (accesedPoints.get(i).X * sqrWidth),(float) (accesedPoints.get(i).Y*sqrHeigth), (float) sqrWidth,(float) sqrHeigth);
       }
       // g.fill(0, 255, 0,100f);
       // for (int i = 0; i < currentPoints.size();i++){
@@ -91,15 +91,15 @@ public class recursiveSolver {
       drawRecurse(g,currentPoints.get(end),sqrWidth,sqrHeigth);
     }
     g.fill(255,0,0);
-    g.rect(startX*sqrWidth, startY*sqrHeigth, sqrWidth, sqrHeigth);
+    g.rect((float) (startX*sqrWidth),(float) (startY*sqrHeigth),(float) sqrWidth,(float) sqrHeigth);
     g.fill(0,0,0);
-    g.rect(goalX*sqrWidth, goalY*sqrHeigth, sqrWidth, sqrHeigth);
+    g.rect((float) (goalX*sqrWidth),(float) (goalY*sqrHeigth),(float) sqrWidth,(float) sqrHeigth);
   }
-  private void drawRecurse(PGraphics g,Point start,int sqrWidth,int sqrHeigth) {
+  private void drawRecurse(PGraphics g,Point start,double sqrWidth,double sqrHeigth) {
     if (start.path.X == -1) return;
     drawRecurse(g, start.path, sqrWidth, sqrHeigth);
     g.fill(255);
-    g.rect(start.X * sqrWidth, start.Y*sqrHeigth, sqrWidth, sqrHeigth);
+    g.rect((float) (start.X * sqrWidth),(float) (start.Y*sqrHeigth),(float) sqrWidth,(float) sqrHeigth);
   }
   private boolean finished(){
     for (int i = 0; i < currentPoints.size();i++){
