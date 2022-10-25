@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import mtdm.dk.labyrinth.Labyrinth;
 import processing.core.PGraphics;
 
-public class WallFollower {
+public class WallFollower extends Solver{
   
   private Labyrinth maze;
   byte orientation = 0;//0 = up follows the clock as it increases
@@ -28,6 +28,7 @@ public class WallFollower {
     Integer[] start = {X,Y,0,0};
     path.add(start);
   }
+  @Override
   public void move(int maxSteps) {
     for (int i = 0; i < maxSteps && !(X == goalX && Y == goalY); i++){
       movement();
@@ -93,6 +94,7 @@ public class WallFollower {
   private void turnWithClock() {
     orientation = (byte) ((orientation+1)%4);
   }
+  @Override
   public void draw(PGraphics g,double sqrWidth,double sqrHeigth){
     g.strokeWeight(5);
     g.stroke(0, 255, 0);
@@ -154,5 +156,10 @@ public class WallFollower {
       g.stroke(255,255,255);
       g.point((float) (goalX*sqrWidth + sqrWidth/2),(float) (goalY*sqrHeigth + sqrHeigth/2));
     }
+  }
+
+  @Override
+  public boolean complete(){
+    return X == goalX && Y == goalY;
   }
 }

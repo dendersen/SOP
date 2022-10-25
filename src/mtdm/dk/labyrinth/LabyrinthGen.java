@@ -42,12 +42,23 @@ public class LabyrinthGen {
         activeTemp.addAll(modelMaze(maze, active.remove(0), density));
       }
       active.addAll(activeTemp);
+      active = shuffle(active);
       if(active.size()<1){
         break;
       }
     }
     return maze;
   }
+  private static ArrayList<Point> shuffle(ArrayList<Point> active) {
+    for (int i = 0; i < 4; i++){
+      for (int j = 0; j < active.size(); j++) {
+        Point a = active.remove((int) (Math.floor(Math.random()*active.size())));
+        active.add((int) (Math.floor(Math.random()*active.size())), a);
+      }
+    }
+    return active;
+  }
+
   private static ArrayList<Point> modelMaze(Labyrinth maze,Point p, byte density){
     // if (density >= 2 && (int) Math.floor(Math.random()) == 12){
     //   maze.modifyLaborinth(p.X, p.Y, true);

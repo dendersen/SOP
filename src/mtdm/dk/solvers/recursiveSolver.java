@@ -6,7 +6,7 @@ import mtdm.dk.Point;
 import mtdm.dk.labyrinth.Labyrinth;
 import processing.core.PGraphics;
 
-public class recursiveSolver {
+public class recursiveSolver extends Solver{
   Labyrinth maze;
   int X;
   int Y;
@@ -20,6 +20,13 @@ public class recursiveSolver {
   boolean succes = false;
   int end = -1;
   
+  /**
+   * @param labyrinth
+   * @param startX
+   * @param startY
+   * @param endX
+   * @param endY
+   */
   public recursiveSolver(Labyrinth labyrinth, int startX, int startY,int endX, int endY){
     this.maze = labyrinth;
     this.X = startX;
@@ -30,6 +37,7 @@ public class recursiveSolver {
     this.goalY = endY;
     currentPoints.add(new Point(startX,startY));
   }
+  @Override
   public void move(int steps){
     if (!begun){
       begun = true;
@@ -68,6 +76,7 @@ public class recursiveSolver {
     newPoints.add(new Point(current.X,current.Y-1,current));
     return newPoints;
   }
+  @Override
   public void draw(PGraphics g,  double sqrWidth, double sqrHeigth){
     if (this.end == -1){
       
@@ -92,7 +101,7 @@ public class recursiveSolver {
     }
     g.fill(255,0,0);
     g.rect((float) (startX*sqrWidth),(float) (startY*sqrHeigth),(float) sqrWidth,(float) sqrHeigth);
-    g.fill(0,0,0);
+    g.fill(0,255,255);
     g.rect((float) (goalX*sqrWidth),(float) (goalY*sqrHeigth),(float) sqrWidth,(float) sqrHeigth);
   }
   private void drawRecurse(PGraphics g,Point start,double sqrWidth,double sqrHeigth) {
@@ -116,5 +125,8 @@ public class recursiveSolver {
       }
     }
     return -1;
+  }
+  public boolean complete(){
+    return end != -1;
   }
 }

@@ -1,11 +1,5 @@
 package mtdm.dk.labyrinth;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Scanner;
-
 import mtdm.dk.Point;
 import processing.core.PGraphics;
 
@@ -65,9 +59,9 @@ public class Labyrinth{
   }
   public Point findPath(boolean up){
     if (up){
-      return brute(width,height,true);
+      return brute(width-4,height-4,true);
     }else{
-      return brute(0,0,false);
+      return brute(4,4,false);
     }
   }
   public Point findPath(){
@@ -79,16 +73,18 @@ public class Labyrinth{
       if (isPath(x, y)){
         return new Point(x,y);
       }
-      if (up){
-        return brute(x-1,y-1,true);
+      if(up){
+        x--;
+        y--;
       }else{
-        return brute(x+1,y+1,false);
+        x++;
+        y++;
       }
     }
   }
   public Point findPath(Point notSame){
     while (true){
-      Point pos = brute(0,0,false);
+      Point pos = brute(4,4,false);
       if(isPath(pos.X, pos.Y) && !(notSame.X == pos.X && notSame.Y == pos.Y)){
         return pos;
       }
@@ -121,35 +117,14 @@ public class Labyrinth{
     }
     return out + "}";
   }
-
   public void saveLaborinth(String regex){
-    String maze = toString().replaceAll("█", regex);
-    String data = "";
-    File file = new File("Save.txt");
-    try (Scanner myReader = new Scanner(file)) {
-      while (myReader.hasNextLine()) {
-        data += myReader.nextLine();
-        data += "\n";
-      }
-    } catch (FileNotFoundException e) {
-        try {
-          file.createNewFile();
-        } catch (IOException e1) {
-          // TODO Auto-generated catch block
-          e1.printStackTrace();
-        }
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      }
-      try {
-        FileWriter myWriter = new FileWriter("Save.txt");
-        myWriter.write(data + "\n\n" + maze);
-        myWriter.close();
-        System.out.println("Successfully wrote to the file.");
-      } catch (IOException e) {
-        System.out.println("An error occurred.");
-        e.printStackTrace();
-      }
+    System.out.println("start");
+    
+    labyrinthSaver writer = new labyrinthSaver();
+    writer.start(toString(), regex);
+    Thread t = new Thread(writer);
+    t.start();
+    System.out.println("end");
   }
 
   // public int sum(){
