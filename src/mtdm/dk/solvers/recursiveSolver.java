@@ -19,8 +19,8 @@ public class recursiveSolver extends Solver{
   boolean begun = false;
   boolean succes = false;
   int end = -1;
-  public Thread Calc = new mover();
-  public Thread Draw = new drawer();
+  public Thread Calc;
+  public Thread Draw;
 
   /**
    * @param labyrinth
@@ -38,6 +38,8 @@ public class recursiveSolver extends Solver{
     this.goalX = endX;
     this.goalY = endY;
     currentPoints.add(new Point(startX,startY));
+    Calc = new mover();
+    Draw = new drawer();
   }
   
   

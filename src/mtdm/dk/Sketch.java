@@ -101,6 +101,9 @@ public class Sketch extends PApplet{
     sqrHeigth = height/((double)maze.height);
   }
   private void move(){
+    if(solver.Calc == null){
+      solver.Calc = new recursiveSolver.mover();
+    }
     solver.Calc.start(1);
     solver.Calc.run();
   }
