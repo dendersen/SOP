@@ -37,19 +37,29 @@ public class recursiveSolver extends Solver{
     this.goalY = endY;
     currentPoints.add(new Point(startX,startY));
   }
-  @Override
-  public void move(int steps){
-    if (!begun){
-      begun = true;
-      return;
+  private class calc extends Thread{
+    int steps;
+    public calc(int  steps){
+      this.steps = steps;
     }
-    if(finished()){
-      end = finishedPoint();
-    }else{
-      for (int i = 0; i < steps && !succes;i++){
-        movement();
+    public void run(){
+      if (!begun){
+        begun = true;
+        return;
+      }
+      if(finished()){
+        end = finishedPoint();
+      }else{
+        for (int i = 0; i < steps && !succes;i++){
+          movement();
+        }
       }
     }
+  }
+  public void move(int steps){
+    calc mover = new calc(steps);
+    Thread t = mover;
+    t.run();
   }
   private void movement(){
       ArrayList<Point> newPoints = new ArrayList<Point>(); 

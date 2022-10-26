@@ -11,7 +11,7 @@ public class test {
     Instant start = Instant.now();
 
     String[] processingArgs = {"Sketch"};
-    draw = new Sketch((byte) 1,(byte) 1,1000,1000);
+    draw = new Sketch((byte) 1,(byte) 1,750,750);
     PApplet.runSketch(processingArgs,draw);
     
     while(!draw.goal()){
