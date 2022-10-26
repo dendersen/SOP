@@ -6,12 +6,11 @@ import java.time.Instant;
 import processing.core.PApplet;
 public class test {
   static Sketch draw;
-  static Sketch draw2;
   public static void main(String[] args) throws InterruptedException {
     Instant start = Instant.now();
 
     String[] processingArgs = {"Sketch"};
-    draw = new Sketch((byte) 1,(byte) 1,750,750);
+    draw = new Sketch((byte) 1,(byte) 1,500,500,800);
     PApplet.runSketch(processingArgs,draw);
     
     while(!draw.goal()){

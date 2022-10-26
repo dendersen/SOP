@@ -8,8 +8,12 @@ import mtdm.dk.labyrinth.LabyrinthGen;
 import mtdm.dk.solvers.WallFollower;
 import mtdm.dk.solvers.Solver;
 import mtdm.dk.solvers.recursiveSolver;
+import mtdm.dk.Thread;
 
 public class Sketch extends PApplet{
+
+  Thread t1;
+  Thread t2;
 
   static PGraphics g;
   static double sqrWidth;
@@ -21,8 +25,9 @@ public class Sketch extends PApplet{
   byte solverID;
   int Height;
   int Width;
+  int desire;
 
-  public Sketch(byte solverID, byte MaksimumBranches,int Width,int Height){
+  public Sketch(byte solverID, byte MaksimumBranches,int Width,int Height,int desire){
     this.solverID = solverID;
     if(Width * Height > 800){
       System.out.println("creating labyrinth, this might take a while");
@@ -42,6 +47,7 @@ public class Sketch extends PApplet{
         solver = new Solver();
       break;
     }
+    this.desire  = desire;
   }
   public void main() {
     //TODO make multi threaded draw and calc
@@ -50,19 +56,7 @@ public class Sketch extends PApplet{
   @Override
   public void settings() {
     path = this.loadImage("icons/path.png");
-    if(maze.width > 500 || maze.height > 500){
-      size(1000, 1000);
-    }else if (maze.width > 333 || maze.height > 333){
-      size(width*2, height*2);
-    }else if (maze.width > 250 || maze.height > 250){
-      size(width*3, height*3);
-    }else if (maze.width > 200 || maze.height > 200){
-      size(width*4, height*4);
-    }else if (maze.width > 167 || maze.height > 167){
-      size(width*5, height*5);
-    }else{
-      size(width*6, height*6);
-    }
+    size((int) Math.floor(desire/maze.width) * maze.width, (int) (Math.floor(desire/maze.height)) * maze.height);
     Height = height;
     Width = width;
   }
@@ -107,10 +101,12 @@ public class Sketch extends PApplet{
     sqrHeigth = height/((double)maze.height);
   }
   private void move(){
-    solver.move(1);
+    solver.Calc.start(1);
+    solver.Calc.run();
   }
   private void drawSolver(){
-    solver.draw(g,sqrWidth,sqrHeigth);
+    solver.Draw.start(g,sqrWidth,sqrHeigth);
+    solver.Draw.run();
   }
   public boolean goal(){
     return solver.complete();

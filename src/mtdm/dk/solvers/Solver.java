@@ -1,8 +1,11 @@
 package mtdm.dk.solvers;
 
 import processing.core.PGraphics;
+import mtdm.dk.Thread;
 
 public class Solver {
+  public Thread Calc;
+  public Thread Draw;
   public void move(int steps){
     System.out.println("please use extended classes");
   }
