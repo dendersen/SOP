@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import mtdm.dk.Point;
 import mtdm.dk.labyrinth.Labyrinth;
 import processing.core.PGraphics;
+import mtdm.dk.Thread;
 
 public class recursiveSolver extends Solver{
   Labyrinth maze;
@@ -85,7 +86,6 @@ public class recursiveSolver extends Solver{
   public boolean complete(){
     return end != -1;
   }
-
   public class mover extends Thread{
     int steps;
     public void start(int steps){
@@ -113,7 +113,6 @@ public class recursiveSolver extends Solver{
       }
     }
   }
-
   public class drawer extends Thread{
     PGraphics g;
     double sqrWidth;
