@@ -9,6 +9,8 @@ import mtdm.dk.solvers.WallFollower;
 import mtdm.dk.solvers.Solver;
 import mtdm.dk.solvers.recursiveSolver;
 import mtdm.dk.Thread;
+import mtdm.dk.solvers.Solver.mover;
+import mtdm.dk.solvers.Solver.drawer;
 
 public class Sketch extends PApplet{
 
@@ -67,7 +69,7 @@ public class Sketch extends PApplet{
     g = getGraphics();
     strokeWeight(2);
     frameRate(60);
-    System.out.println(maze.toString());
+    // System.out.println(maze.toString());
     maze.saveLaborinth("@");
   }
   
@@ -102,12 +104,15 @@ public class Sketch extends PApplet{
   }
   private void move(){
     if(solver.Calc == null){
-      solver.Calc = new recursiveSolver.mover();
+      solver.Calc = solver.new mover();
     }
     solver.Calc.start(1);
     solver.Calc.run();
   }
   private void drawSolver(){
+    if(solver.Calc == null){
+      solver.Calc = solver.new drawer();
+    }
     solver.Draw.start(g,sqrWidth,sqrHeigth);
     solver.Draw.run();
   }
