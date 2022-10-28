@@ -39,8 +39,6 @@ public class recursiveSolver extends Solver{
     this.goalX = endX;
     this.goalY = endY;
     currentPoints.add(new Point(startX,startY));
-    Calc = new mover();
-    Draw = new drawer();
   }
   
   
@@ -86,12 +84,21 @@ public class recursiveSolver extends Solver{
   public boolean complete(){
     return end != -1;
   }
+  public Thread callMovement(){
+    return new mover();
+  }
+  public Thread callDrawing(){
+    return new drawer();
+  }
   public class mover extends Thread{
     int steps;
+    boolean isAlive = false;
     public void start(int steps){
       this.steps = steps;
+      isAlive = true;
     }
     public void run(){
+      isAlive = true;
       if (!begun){
         begun = true;
         return;
@@ -111,9 +118,12 @@ public class recursiveSolver extends Solver{
         currentPoints = newPoints;
         }
       }
+      isAlive = false;
     }
   }
+
   public class drawer extends Thread{
+    boolean isAlive = false;
     PGraphics g;
     double sqrWidth;
     double sqrHeigth;
@@ -124,6 +134,7 @@ public class recursiveSolver extends Solver{
     }
     
     public void run(){
+    isAlive = true;
       if (end == -1){
       
         g.fill(0, 255, 0,200f);
@@ -149,6 +160,7 @@ public class recursiveSolver extends Solver{
       g.rect((float) (startX*sqrWidth),(float) (startY*sqrHeigth),(float) sqrWidth,(float) sqrHeigth);
       g.fill(0,255,255);
       g.rect((float) (goalX*sqrWidth),(float) (goalY*sqrHeigth),(float) sqrWidth,(float) sqrHeigth);
+      isAlive = false;
     }
     private void drawRecurse(PGraphics g,Point start,double sqrWidth,double sqrHeigth) {
       if (start.path.X == -1) return;

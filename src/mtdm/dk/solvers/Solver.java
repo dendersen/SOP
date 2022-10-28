@@ -16,7 +16,11 @@ public class Solver {
     System.out.println("please use extended classes");
     return false;
   }
-  public class mover extends Thread{}
-  public class drawer extends Thread{}
+  public Thread callMovement(){
+    return new Thread();
+  }
+  public Thread callDrawing(){
+    return new Thread();
+  }
 
 }

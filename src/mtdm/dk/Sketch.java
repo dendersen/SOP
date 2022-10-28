@@ -8,9 +8,6 @@ import mtdm.dk.labyrinth.LabyrinthGen;
 import mtdm.dk.solvers.WallFollower;
 import mtdm.dk.solvers.Solver;
 import mtdm.dk.solvers.recursiveSolver;
-import mtdm.dk.Thread;
-import mtdm.dk.solvers.Solver.mover;
-import mtdm.dk.solvers.Solver.drawer;
 
 public class Sketch extends PApplet{
 
@@ -103,18 +100,30 @@ public class Sketch extends PApplet{
     sqrHeigth = height/((double)maze.height);
   }
   private void move(){
-    if(solver.Calc == null){
-      solver.Calc = solver.new mover();
+    try{
+      if (!t1.isAlive){
+        t1 = solver.callMovement();
+        t1.start(1);
+        t1.run();
+      }
+    }catch(Exception e){
+      t1 = solver.callMovement();
+      t1.start(1);
+      t1.run();
     }
-    solver.Calc.start(1);
-    solver.Calc.run();
   }
   private void drawSolver(){
-    if(solver.Calc == null){
-      solver.Calc = solver.new drawer();
+    try{
+      if (!t2.isAlive){
+        t2 = solver.callMovement();
+        t2.start(1);
+        t2.run();
+      }
+    }catch(Exception e){
+      t2 = solver.callMovement();
+      t2.start(1);
+      t2.run();
     }
-    solver.Draw.start(g,sqrWidth,sqrHeigth);
-    solver.Draw.run();
   }
   public boolean goal(){
     return solver.complete();
