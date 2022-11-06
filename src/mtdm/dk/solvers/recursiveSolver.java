@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import mtdm.dk.Point;
 import mtdm.dk.labyrinth.Labyrinth;
 import processing.core.PGraphics;
+import mtdm.dk.Thread;
 
 public class recursiveSolver extends Solver{
   Labyrinth maze;
@@ -19,7 +20,9 @@ public class recursiveSolver extends Solver{
   boolean begun = false;
   boolean succes = false;
   int end = -1;
-  
+  public Thread Calc;
+  public Thread Draw;
+
   /**
    * @param labyrinth
    * @param startX
@@ -37,40 +40,10 @@ public class recursiveSolver extends Solver{
     this.goalY = endY;
     currentPoints.add(new Point(startX,startY));
   }
-  private class calc extends Thread{
-    int steps;
-    public calc(int  steps){
-      this.steps = steps;
-    }
-    public void run(){
-      if (!begun){
-        begun = true;
-        return;
-      }
-      if(finished()){
-        end = finishedPoint();
-      }else{
-        for (int i = 0; i < steps && !succes;i++){
-          movement();
-        }
-      }
-    }
-  }
+  
+  
   public void move(int steps){
-    calc mover = new calc(steps);
-    Thread t = mover;
-    t.run();
-  }
-  private void movement(){
-      ArrayList<Point> newPoints = new ArrayList<Point>(); 
-    while(currentPoints.size() > 0){
-      Point current = currentPoints.remove(0);
-      if (checkPoint(current)){
-        newPoints = addPrepPoints(newPoints, current);
-        accesedPoints.add(current);
-      }
-    }
-    currentPoints = newPoints;
+    this.Calc.run();
   }
   private boolean checkPoint(Point current) {
     boolean bool = true;
@@ -88,37 +61,9 @@ public class recursiveSolver extends Solver{
   }
   @Override
   public void draw(PGraphics g,  double sqrWidth, double sqrHeigth){
-    if (this.end == -1){
-      
-      g.fill(0, 255, 0,200f);
-      for (int i = 0; i < currentPoints.size();i++){
-        g.rect((float) (currentPoints.get(i).X * sqrWidth),(float) (currentPoints.get(i).Y*sqrHeigth), (float) sqrWidth,(float) sqrHeigth);
-      }
-      g.fill(0,0 ,255,200f);
-      for (int i = 0; i < accesedPoints.size();i++){
-        g.rect((float) (accesedPoints.get(i).X * sqrWidth),(float) (accesedPoints.get(i).Y*sqrHeigth), (float) sqrWidth,(float) sqrHeigth);
-      }
-    }else{
-      g.fill(0,0 ,255,100f);
-      for (int i = 0; i < accesedPoints.size();i++){
-        g.rect((float) (accesedPoints.get(i).X * sqrWidth),(float) (accesedPoints.get(i).Y*sqrHeigth), (float) sqrWidth,(float) sqrHeigth);
-      }
-      // g.fill(0, 255, 0,100f);
-      // for (int i = 0; i < currentPoints.size();i++){
-      //   g.rect(currentPoints.get(i).X * sqrWidth, currentPoints.get(i).Y*sqrHeigth, sqrWidth, sqrHeigth);
-      // }
-      drawRecurse(g,currentPoints.get(end),sqrWidth,sqrHeigth);
-    }
-    g.fill(255,0,0);
-    g.rect((float) (startX*sqrWidth),(float) (startY*sqrHeigth),(float) sqrWidth,(float) sqrHeigth);
-    g.fill(0,255,255);
-    g.rect((float) (goalX*sqrWidth),(float) (goalY*sqrHeigth),(float) sqrWidth,(float) sqrHeigth);
-  }
-  private void drawRecurse(PGraphics g,Point start,double sqrWidth,double sqrHeigth) {
-    if (start.path.X == -1) return;
-    drawRecurse(g, start.path, sqrWidth, sqrHeigth);
-    g.fill(255);
-    g.rect((float) (start.X * sqrWidth),(float) (start.Y*sqrHeigth),(float) sqrWidth,(float) sqrHeigth);
+    drawer draw = new drawer();
+    draw.start(g,sqrWidth,sqrHeigth);
+    draw.run();
   }
   private boolean finished(){
     for (int i = 0; i < currentPoints.size();i++){
@@ -138,5 +83,90 @@ public class recursiveSolver extends Solver{
   }
   public boolean complete(){
     return end != -1;
+  }
+  public Thread callMovement(){
+    return new mover();
+  }
+  public Thread callDrawing(){
+    return new drawer();
+  }
+  public class mover extends Thread{
+    int steps;
+    boolean isAlive = false;
+    public void start(int steps){
+      this.steps = steps;
+      isAlive = true;
+    }
+    public void run(){
+      isAlive = true;
+      if (!begun){
+        begun = true;
+        return;
+      }
+      if(finished()){
+        end = finishedPoint();
+      }else{
+        for (int i = 0; i < steps && !succes;i++){
+        ArrayList<Point> newPoints = new ArrayList<Point>(); 
+        while(currentPoints.size() > 0){
+          Point current = currentPoints.remove(0);
+          if (checkPoint(current)){
+            newPoints = addPrepPoints(newPoints, current);
+            accesedPoints.add(current);
+          }
+        }
+        currentPoints = newPoints;
+        }
+      }
+      isAlive = false;
+    }
+  }
+
+  public class drawer extends Thread{
+    boolean isAlive = false;
+    PGraphics g;
+    double sqrWidth;
+    double sqrHeigth;
+    public void start(PGraphics g,  double sqrWidth, double sqrHeigth){
+      this.g = g;
+      this.sqrWidth = sqrWidth;
+      this.sqrHeigth = sqrHeigth;
+    }
+    
+    public void run(){
+    isAlive = true;
+      if (end == -1){
+      
+        g.fill(0, 255, 0,200f);
+        for (int i = 0; i < currentPoints.size();i++){
+          g.rect((float) (currentPoints.get(i).X * sqrWidth),(float) (currentPoints.get(i).Y*sqrHeigth), (float) sqrWidth,(float) sqrHeigth);
+        }
+        g.fill(0,0 ,255,200f);
+        for (int i = 0; i < accesedPoints.size();i++){
+          g.rect((float) (accesedPoints.get(i).X * sqrWidth),(float) (accesedPoints.get(i).Y*sqrHeigth), (float) sqrWidth,(float) sqrHeigth);
+        }
+      }else{
+        g.fill(0,0 ,255,100f);
+        for (int i = 0; i < accesedPoints.size();i++){
+          g.rect((float) (accesedPoints.get(i).X * sqrWidth),(float) (accesedPoints.get(i).Y*sqrHeigth), (float) sqrWidth,(float) sqrHeigth);
+        }
+        // g.fill(0, 255, 0,100f);
+        // for (int i = 0; i < currentPoints.size();i++){
+        //   g.rect(currentPoints.get(i).X * sqrWidth, currentPoints.get(i).Y*sqrHeigth, sqrWidth, sqrHeigth);
+        // }
+        drawRecurse(g,currentPoints.get(end),sqrWidth,sqrHeigth);
+      }
+      g.fill(255,0,0);
+      g.rect((float) (startX*sqrWidth),(float) (startY*sqrHeigth),(float) sqrWidth,(float) sqrHeigth);
+      g.fill(0,255,255);
+      g.rect((float) (goalX*sqrWidth),(float) (goalY*sqrHeigth),(float) sqrWidth,(float) sqrHeigth);
+      isAlive = false;
+    }
+    private void drawRecurse(PGraphics g,Point start,double sqrWidth,double sqrHeigth) {
+      if (start.path.X == -1) return;
+      drawRecurse(g, start.path, sqrWidth, sqrHeigth);
+      g.fill(255);
+      g.rect((float) (start.X * sqrWidth),(float) (start.Y*sqrHeigth),(float) sqrWidth,(float) sqrHeigth);
+    }
   }
 }

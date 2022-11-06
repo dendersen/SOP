@@ -73,6 +73,20 @@ public class Labyrinth{
       if (isPath(x, y)){
         return new Point(x,y);
       }
+      if(x > width|| y > height || x < 0|| y < 0){
+        x =(int) Math.floor(Math.random()*(width+1));
+        y =(int) Math.floor(Math.random()*(width+1));
+        if(
+          isPath(x, y) || 
+          isPath(x+1, y) || 
+          isPath(x-1, y) || 
+          isPath(x, y+1) || 
+          isPath(x, y-1)
+        ){
+          modifyLaborinth(x, y, true);
+          return new Point(x,y);
+        }
+      }
       if(up){
         x--;
         y--;
