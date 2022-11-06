@@ -2,6 +2,7 @@ package mtdm.dk.solvers;
 
 import java.util.ArrayList;
 
+import mtdm.dk.Thread;
 import mtdm.dk.labyrinth.Labyrinth;
 import processing.core.PGraphics;
 
@@ -161,5 +162,15 @@ public class WallFollower extends Solver{
   @Override
   public boolean complete(){
     return X == goalX && Y == goalY;
+  }
+  @Override
+  public Thread callMovement() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+  @Override
+  public Thread callDrawing() {
+    // TODO Auto-generated method stub
+    return null;
   }
 }

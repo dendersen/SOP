@@ -3,7 +3,7 @@ package mtdm.dk.solvers;
 import processing.core.PGraphics;
 import mtdm.dk.Thread;
 
-public class Solver {
+public abstract class Solver {
   public Thread Calc;
   public Thread Draw;
   public void move(int steps){
@@ -16,11 +16,6 @@ public class Solver {
     System.out.println("please use extended classes");
     return false;
   }
-  public Thread callMovement(){
-    return new Thread();
-  }
-  public Thread callDrawing(){
-    return new Thread();
-  }
-
+  public abstract Thread callMovement();
+  public abstract Thread callDrawing();
 }

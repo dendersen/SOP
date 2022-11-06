@@ -43,7 +43,7 @@ public class Sketch extends PApplet{
         solver = new recursiveSolver(maze, start.X, start.Y, end.X, end.Y);
         break;
       default:
-        solver = new Solver();
+        solver = new recursiveSolver(maze, start.X, start.Y, end.X, end.Y);
       break;
     }
     this.desire  = desire;
@@ -102,7 +102,6 @@ public class Sketch extends PApplet{
   private void move(){
     try{
       if (!t1.isAlive){
-        t1 = solver.callMovement();
         t1.start(1);
         t1.run();
       }
@@ -115,13 +114,12 @@ public class Sketch extends PApplet{
   private void drawSolver(){
     try{
       if (!t2.isAlive){
-        t2 = solver.callMovement();
-        t2.start(1);
+        t2.start(g,sqrWidth,sqrHeigth);
         t2.run();
       }
     }catch(Exception e){
-      t2 = solver.callMovement();
-      t2.start(1);
+      t2 = solver.callDrawing();
+      t2.start(g,sqrWidth,sqrHeigth);
       t2.run();
     }
   }
