@@ -10,12 +10,8 @@ public class test {
     Instant start = Instant.now();
 
     String[] processingArgs = {"Sketch"};
-    draw = new Sketch((byte) 1,(byte) 1,800,800,800);
+    draw = new Sketch((byte) 1,(byte) 1,400,400,1200);
     PApplet.runSketch(processingArgs,draw);
-    
-    while(!draw.goal()){
-      Thread.sleep(2);
-    }
     if(draw.goal()){
       Instant end = Instant.now();
       Duration timeElapsed = Duration.between(start, end);
