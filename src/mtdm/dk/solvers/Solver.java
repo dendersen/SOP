@@ -18,4 +18,8 @@ public abstract class Solver {
   }
   public abstract Thread callMovement();
   public abstract Thread callDrawing();
+  public void swapPoints() {}
+  //TODO: recurse but manhattan optimised
+  //TODO: recurse but random
+  //TODO: just random
 }
