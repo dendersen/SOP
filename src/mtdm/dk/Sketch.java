@@ -13,7 +13,7 @@ public class Sketch extends PApplet{
 
   final int threadCount = 10;
   Thread movers[] = new Thread[threadCount];
-  Thread drawers[] = new Thread[threadCount/2];
+  Thread drawers[] = new Thread[1];
 
   static PGraphics g;
   static double sqrWidth;
