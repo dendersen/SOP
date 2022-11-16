@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import mtdm.dk.Thread;
 import mtdm.dk.labyrinth.Labyrinth;
 import processing.core.PGraphics;
+//TODO make multi threaded draw and calc
 
 public class WallFollower extends Solver{
   

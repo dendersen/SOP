@@ -74,17 +74,37 @@ public class Labyrinth{
         return new Point(x,y);
       }
       if(x > width|| y > height || x < 0|| y < 0){
-        x =(int) Math.floor(Math.random()*(width+1));
-        y =(int) Math.floor(Math.random()*(width+1));
-        if(
-          isPath(x, y) || 
-          isPath(x+1, y) || 
-          isPath(x-1, y) || 
-          isPath(x, y+1) || 
-          isPath(x, y-1)
-        ){
-          modifyLaborinth(x, y, true);
-          return new Point(x,y);
+        if(up){
+          x = width;
+          y = height;
+        }else{
+          x = 0;
+          y = 0;
+        }
+        while(true){
+          if(
+            isPath(x, y) || 
+            isPath(x+1, y) || 
+            isPath(x-1, y) || 
+            isPath(x, y+1) || 
+            isPath(x, y-1)
+          ){
+            modifyLaborinth(x, y, true);
+            return new Point(x,y);
+          }
+          if(up){
+            x--;
+            if(x < 0){
+              x = width;
+              y--;
+            }
+          }else{
+            x++;
+            if(x > width){
+              x = 0;
+              y++;
+            }
+          }
         }
       }
       if(up){

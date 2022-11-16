@@ -13,6 +13,7 @@ public class Sketch extends PApplet{
 
   Thread t1;
   Thread t2;
+  LabDraw[] labo;
 
   static PGraphics g;
   static double sqrWidth;
@@ -25,13 +26,15 @@ public class Sketch extends PApplet{
   int Height;
   int Width;
   int desire;
-
+  int scramble = 4;
+  int numberOfDraw = 3;
+  
   public Sketch(byte solverID, byte MaksimumBranches,int Width,int Height,int desire){
     this.solverID = solverID;
     if(Width * Height > 800){
       System.out.println("creating labyrinth, this might take a while");
     }
-    maze = LabyrinthGen.maze(g, Width, Height, MaksimumBranches);
+    maze = LabyrinthGen.maze(g, Width, Height, MaksimumBranches, scramble);
     System.out.println("labyrinth finished");
     Point start = maze.findPath();
     Point end = maze.findPath(start);
@@ -47,9 +50,13 @@ public class Sketch extends PApplet{
       break;
     }
     this.desire  = desire;
+
+    labo = new LabDraw[numberOfDraw];
+    for (int i = 0; i < numberOfDraw; i++) {
+      labo[i].start(maze.width/numberOfDraw*i,maze.width/numberOfDraw*(i+1),maze.height/numberOfDraw*i,maze.height/numberOfDraw*(i+1));
+    }
   }
   public void main() {
-    //TODO make multi threaded draw and calc
     PApplet.main("Sketch");
   }
   @Override
@@ -81,18 +88,41 @@ public class Sketch extends PApplet{
     move();
     drawSolver();
   }
+
   private void drawLaborinth(){
-    for(int i = 0; i < maze.width;i++){
-      for(int j = 0; j < maze.height;j++){
-        g.strokeWeight(0);
-        if (maze.isPath(i,j)){
-          g.fill(255,128,0);
-          g.rect((float) (i*sqrWidth),(float) (j*sqrHeigth),(float)sqrWidth, (float)sqrHeigth);
-        }else{
-          g.fill(75);
-          g.rect((float) (i*sqrWidth),(float) (j*sqrHeigth),(float) sqrWidth, (float)sqrHeigth);
+    for (int i = 0; i < numberOfDraw; i++) {
+      labo[i].run();
+    }
+  }
+  public class LabDraw extends Thread {
+    int startX;
+    int startY;
+    int endX;
+    int endY;
+    boolean isRunning = false;
+    
+    public void start(int sX, int sY, int eX, int eY){
+      startX = sX;
+      startY = sY;
+      endX = eX;
+      endY = eY;
+    }
+    
+    public void run(){
+      isRunning = true;
+      for(int i = startX; i < endX;i++){
+        for(int j = startY; j < endY;j++){
+          g.strokeWeight(0);
+          if (maze.isPath(i,j)){
+            g.fill(255,128,0);
+            g.rect((float) (i*sqrWidth),(float) (j*sqrHeigth),(float)sqrWidth, (float)sqrHeigth);
+          }else{
+            g.fill(75);
+            g.rect((float) (i*sqrWidth),(float) (j*sqrHeigth),(float) sqrWidth, (float)sqrHeigth);
+          }
         }
       }
+      isRunning = false;
     }
   }
   private void SetSquares(){

@@ -10,7 +10,7 @@ public class test {
     Instant start = Instant.now();
 
     String[] processingArgs = {"Sketch"};
-    draw = new Sketch((byte) 1,(byte) 1,200,200,800);
+    draw = new Sketch((byte) 1,(byte) 2,1000,1000,1200);
     PApplet.runSketch(processingArgs,draw);
     
     while(!draw.goal()){
