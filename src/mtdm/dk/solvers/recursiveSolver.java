@@ -9,20 +9,20 @@ import processing.core.PGraphics;
 import mtdm.dk.Thread;
 
 public class recursiveSolver extends Solver{
-  Labyrinth maze;
-  int X;
-  int Y;
-  int goalX;
-  int goalY;
-  int startX;
-  int startY;
-  ArrayList<Point> accesedPoints = new ArrayList<Point>();
-  ArrayList<Point> currentPoints = new ArrayList<Point>();
-  ArrayList<Point> newPoints = new ArrayList<Point>();
-  ArrayList<Point> toBeDrawn = new ArrayList<Point>();
-  boolean begun = false;
-  boolean succes = false;
-  int end = -1;
+  protected Labyrinth maze;
+  protected int X;
+  protected int Y;
+  protected int goalX;
+  protected int goalY;
+  protected int startX;
+  protected int startY;
+  protected ArrayList<Point> accesedPoints = new ArrayList<Point>();
+  protected ArrayList<Point> currentPoints = new ArrayList<Point>();
+  protected ArrayList<Point> newPoints = new ArrayList<Point>();
+  protected ArrayList<Point> toBeDrawn = new ArrayList<Point>();
+  protected boolean begun = false;
+  protected boolean succes = false;
+  protected int end = -1;
   public Thread Calc;
   public Thread Draw;
 
@@ -48,14 +48,14 @@ public class recursiveSolver extends Solver{
   public void move(int steps){
     this.Calc.run();
   }
-  private boolean checkPoint(Point current) {
+  protected boolean checkPoint(Point current) {
     boolean bool = true;
     for (int i = 0; i < accesedPoints.size() && bool;i++){
       bool = !(accesedPoints.get(i).X == current.X && accesedPoints.get(i).Y == current.Y);
     }
     return maze.isPath(current.X, current.Y) && bool;
   }
-  private ArrayList<Point> addPrepPoints(Point current) {
+  protected ArrayList<Point> addPrepPoints(Point current) {
     ArrayList<Point> temp = new ArrayList<Point>();
     
     temp.add(new Point(current.X+1,current.Y,current));
@@ -70,7 +70,7 @@ public class recursiveSolver extends Solver{
     draw.start(g,sqrWidth,sqrHeigth);
     draw.run();
   }
-  private boolean finished(){
+  protected boolean finished(){
     for (int i = 0; i < currentPoints.size();i++){
       if (currentPoints.get(i).X == goalX && currentPoints.get(i).Y == goalY){
         return true;
@@ -78,7 +78,7 @@ public class recursiveSolver extends Solver{
     }
     return false;
   }
-  private int finishedPoint(){
+  protected int finishedPoint(){
     for (int i = 0; i < currentPoints.size();i++){
       if (currentPoints.get(i).X == goalX && currentPoints.get(i).Y == goalY){
         return i;
@@ -177,7 +177,7 @@ public class recursiveSolver extends Solver{
       isAlive = false;
       toBeDrawn.clear();
     }
-    private void drawRecurse(PGraphics g,Point start,double sqrWidth,double sqrHeigth) {
+    protected void drawRecurse(PGraphics g,Point start,double sqrWidth,double sqrHeigth) {
       if (start.path.X == -1) return;
       drawRecurse(g, start.path, sqrWidth, sqrHeigth);
       g.fill(255);

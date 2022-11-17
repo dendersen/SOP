@@ -39,22 +39,15 @@ public class Sketch extends PApplet{
     System.out.println("labyrinth finished");
     Point start = maze.findPath();
     Point end = maze.findPath(start);
-    switch (solverID) {
-      case 0:
-        solver = new WallFollower(maze, start.X, start.Y, end.X, end.Y);
-        break;
-      case 1:
-        solver = new recursiveSolver(maze, start.X, start.Y, end.X, end.Y);
-        break;
-      default:
-        solver = new recursiveSolver(maze, start.X, start.Y, end.X, end.Y);
-      break;
-    }
+    solver = Solver.generator(solverID,maze, start.X, start.Y, end.X, end.Y);
     this.desire  = desire;
 
-    labo = new LabDraw[numberOfDraw];
+    labo = new LabDraw[numberOfDraw*numberOfDraw];
     for (int i = 0; i < numberOfDraw; i++) {
-      labo[i].start(maze.width/numberOfDraw*i,maze.width/numberOfDraw*(i+1),maze.height/numberOfDraw*i,maze.height/numberOfDraw*(i+1));
+      for (int j = 0; j < numberOfDraw; j++) {
+        labo[i*numberOfDraw+j] = new LabDraw();
+        labo[i*numberOfDraw+j].start(maze.width/numberOfDraw*i,maze.width/numberOfDraw*j,maze.height/numberOfDraw*(i+1),maze.height/numberOfDraw*(j+1));
+      };
     }
   }
   public void main() {
@@ -91,7 +84,7 @@ public class Sketch extends PApplet{
   }
 
   private void drawLaborinth(){
-    for (int i = 0; i < numberOfDraw; i++) {
+    for (int i = 0; i < labo.length; i++) {
       labo[i].run();
     }
   }
