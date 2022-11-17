@@ -1,6 +1,7 @@
 package mtdm.dk.solvers;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import mtdm.dk.Point;
 import mtdm.dk.labyrinth.Labyrinth;
@@ -17,6 +18,8 @@ public class recursiveSolver extends Solver{
   int startY;
   ArrayList<Point> accesedPoints = new ArrayList<Point>();
   ArrayList<Point> currentPoints = new ArrayList<Point>();
+  ArrayList<Point> newPoints = new ArrayList<Point>();
+  ArrayList<Point> toBeDrawn = new ArrayList<Point>();
   boolean begun = false;
   boolean succes = false;
   int end = -1;
@@ -52,12 +55,14 @@ public class recursiveSolver extends Solver{
     }
     return maze.isPath(current.X, current.Y) && bool;
   }
-  private ArrayList<Point> addPrepPoints(ArrayList<Point> newPoints, Point current) {
-    newPoints.add(new Point(current.X+1,current.Y,current));
-    newPoints.add(new Point(current.X-1,current.Y,current));
-    newPoints.add(new Point(current.X,current.Y+1,current));
-    newPoints.add(new Point(current.X,current.Y-1,current));
-    return newPoints;
+  private ArrayList<Point> addPrepPoints(Point current) {
+    ArrayList<Point> temp = new ArrayList<Point>();
+    
+    temp.add(new Point(current.X+1,current.Y,current));
+    temp.add(new Point(current.X-1,current.Y,current));
+    temp.add(new Point(current.X,current.Y+1,current));
+    temp.add(new Point(current.X,current.Y-1,current));
+    return temp;
   }
   @Override
   public void draw(PGraphics g,  double sqrWidth, double sqrHeigth){
@@ -90,6 +95,12 @@ public class recursiveSolver extends Solver{
   public Thread callDrawing(){
     return new drawer();
   }
+
+  @Override
+  public void swapPoints() {
+    currentPoints.addAll(newPoints);
+    newPoints.clear();
+  }
   public class mover extends Thread{
     int steps;
     boolean isAlive = false;
@@ -107,15 +118,14 @@ public class recursiveSolver extends Solver{
         end = finishedPoint();
       }else{
         for (int i = 0; i < steps && !succes;i++){
-        ArrayList<Point> newPoints = new ArrayList<Point>(); 
-        while(currentPoints.size() > 0){
-          Point current = currentPoints.remove(0);
-          if (checkPoint(current)){
-            newPoints = addPrepPoints(newPoints, current);
-            accesedPoints.add(current);
+          while(currentPoints.size() > 0){
+            Point current = currentPoints.remove(0);
+            if (checkPoint(current)){
+              newPoints.addAll(addPrepPoints(current));
+              accesedPoints.add(current);
+            }
+            toBeDrawn.add(current);
           }
-        }
-        currentPoints = newPoints;
         }
       }
       isAlive = false;
@@ -134,16 +144,20 @@ public class recursiveSolver extends Solver{
     }
     
     public void run(){
-    isAlive = true;
+      Iterator<Point> point = toBeDrawn.iterator();
+      isAlive = true;
       if (end == -1){
       
-        g.fill(0, 255, 0,200f);
-        for (int i = 0; i < currentPoints.size();i++){
-          g.rect((float) (currentPoints.get(i).X * sqrWidth),(float) (currentPoints.get(i).Y*sqrHeigth), (float) sqrWidth,(float) sqrHeigth);
-        }
         g.fill(0,0 ,255,200f);
         for (int i = 0; i < accesedPoints.size();i++){
           g.rect((float) (accesedPoints.get(i).X * sqrWidth),(float) (accesedPoints.get(i).Y*sqrHeigth), (float) sqrWidth,(float) sqrHeigth);
+        }
+        g.fill(0, 255, 0,200f);
+        while (point.hasNext()){
+          try {
+            Point p = point.next();
+            g.rect((float) (p.X * sqrWidth),(float) (p.Y*sqrHeigth), (float) sqrWidth,(float) sqrHeigth);
+          } catch (IndexOutOfBoundsException e) {}
         }
       }else{
         g.fill(0,0 ,255,100f);
@@ -161,6 +175,7 @@ public class recursiveSolver extends Solver{
       g.fill(0,255,255);
       g.rect((float) (goalX*sqrWidth),(float) (goalY*sqrHeigth),(float) sqrWidth,(float) sqrHeigth);
       isAlive = false;
+      toBeDrawn.clear();
     }
     private void drawRecurse(PGraphics g,Point start,double sqrWidth,double sqrHeigth) {
       if (start.path.X == -1) return;

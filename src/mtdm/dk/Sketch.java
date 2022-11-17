@@ -11,9 +11,10 @@ import mtdm.dk.solvers.recursiveSolver;
 
 public class Sketch extends PApplet{
 
-  Thread t1;
-  Thread t2;
   LabDraw[] labo;
+  final int threadCount = 10;
+  Thread movers[] = new Thread[threadCount];
+  Thread drawers[] = new Thread[1];
 
   static PGraphics g;
   static double sqrWidth;
@@ -129,28 +130,64 @@ public class Sketch extends PApplet{
     sqrWidth = width / ((double)maze.width);
     sqrHeigth = height/((double)maze.height);
   }
-  private void move(){
-    try{
-      if (!t1.isAlive){
-        t1.start(1);
-        t1.run();
+  private boolean threadRunning(Thread[] threads){
+    for (int i = 0; i < threads.length; i++){
+      if (threads[i].isAlive) {
+        return true;
       }
-    }catch(Exception e){
-      t1 = solver.callMovement();
-      t1.start(1);
-      t1.run();
+    }
+    return false;
+  }
+
+  private void move(){
+    try {
+      if(threadRunning(movers)) return;
+    } catch (Exception e) {
+      for (int i = 0; i <movers.length; i++){
+        movers[i] = solver.callMovement();
+        movers[i].start(1);
+        movers[i].run();
+      }
+    }
+    solver.swapPoints();
+    for (int i = 0; i < movers.length; i ++){
+      try{
+          movers[i].start(1);
+          movers[i].run();
+      }catch(Exception e){
+        movers[i] = solver.callMovement();
+        movers[i].start(1);
+        movers[i].run();
+      }
     }
   }
   private void drawSolver(){
-    try{
-      if (!t2.isAlive){
-        t2.start(g,sqrWidth,sqrHeigth);
-        t2.run();
+    if(solver.complete()){
+      drawers[0].start(g,sqrWidth,sqrHeigth);
+      drawers[0].run();
+      return;
+    }
+
+
+    try {
+      if(threadRunning(drawers)) return;
+    } catch (Exception e) {
+      for (int i = 0; i <drawers.length; i++){
+        drawers[i] = solver.callDrawing();
+        drawers[i].start(g,sqrWidth,sqrHeigth);
+        drawers[i].run();
       }
-    }catch(Exception e){
-      t2 = solver.callDrawing();
-      t2.start(g,sqrWidth,sqrHeigth);
-      t2.run();
+    }
+    solver.swapPoints();
+    for (int i = 0; i < drawers.length; i ++){
+      try{
+          drawers[i].start(g,sqrWidth,sqrHeigth);
+          drawers[i].run();
+      }catch(Exception e){
+        drawers[i] = solver.callDrawing();
+        drawers[i].start(g,sqrWidth,sqrHeigth);
+        drawers[i].run();
+      }
     }
   }
   public boolean goal(){
