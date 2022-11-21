@@ -15,6 +15,8 @@ public abstract class Solver {
         return new recursiveSolver(maze, startX, startY, endX, endY);
       case 2:
         return new ManhattanRecurse(maze, startX, startY, endX, endY);
+      case 3:
+        return new RandomRecurse(maze, startX, startY, endX, endY);
       default:
         return new recursiveSolver(maze, startX, startY, endX, endY);
     }

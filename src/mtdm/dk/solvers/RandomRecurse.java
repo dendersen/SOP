@@ -4,7 +4,7 @@ import mtdm.dk.Point;
 import mtdm.dk.Thread;
 import mtdm.dk.labyrinth.Labyrinth;
 
-public class ManhattanRecurse extends recursiveSolver{
+public class RandomRecurse extends recursiveSolver{
   // protected ArrayList<Point> currentPoints = new ArrayList<Point>();
   /**
    * @param labyrinth
@@ -13,7 +13,7 @@ public class ManhattanRecurse extends recursiveSolver{
    * @param endX
    * @param endY
    */
-  public ManhattanRecurse(Labyrinth labyrinth, int startX, int startY, int endX, int endY) {
+  public RandomRecurse(Labyrinth labyrinth, int startX, int startY, int endX, int endY) {
     super(labyrinth, startX, startY, endX, endY);
     this.maze = labyrinth;
     this.X = startX;
@@ -27,10 +27,10 @@ public class ManhattanRecurse extends recursiveSolver{
 
   @Override
   public Thread callMovement() {
-    return new moveer();
+    return new moverr();
   }
 
-  public class moveer extends Thread {
+  public class moverr extends Thread {
     int steps; 
     boolean isAlive = true;
     public void start(int step){
@@ -45,18 +45,9 @@ public class ManhattanRecurse extends recursiveSolver{
       if(finished()){
         end = finishedPoint();
       }else{
-        int index = 0;
-        int dist = (int)1e300;
-        for(int j = 1; j < currentPoints.size(); j++){
-          int tempDist = (currentPoints.get(j).X - goalX) + (currentPoints.get(j).Y - goalY);
-          if(tempDist < dist){
-            dist = tempDist;
-            index = j;
-          }
-        }
         {
           try {
-            Point current = currentPoints.remove(index);
+            Point current = currentPoints.remove((int) Math.floor(Math.random()*currentPoints.size()));
             if (checkPoint(current)){
               newPoints.addAll(addPrepPoints(current));
               accesedPoints.add(current);
