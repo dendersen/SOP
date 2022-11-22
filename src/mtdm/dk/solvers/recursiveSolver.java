@@ -12,10 +12,6 @@ public class recursiveSolver extends Solver{
   protected Labyrinth maze;
   protected int X;
   protected int Y;
-  protected int goalX;
-  protected int goalY;
-  protected int startX;
-  protected int startY;
   protected ArrayList<Point> accesedPoints = new ArrayList<Point>();
   protected ArrayList<Point> currentPoints = new ArrayList<Point>();
   protected ArrayList<Point> newPoints = new ArrayList<Point>();
@@ -106,7 +102,7 @@ public class recursiveSolver extends Solver{
     boolean isAlive = false;
     public void start(int steps){
       this.steps = steps;
-      isAlive = true;
+      isAlive = false;
     }
     public void run(){
       isAlive = true;
@@ -146,24 +142,25 @@ public class recursiveSolver extends Solver{
     public void run(){
       Iterator<Point> point = toBeDrawn.iterator();
       isAlive = true;
-      if (end == -1){
       
-        g.fill(0,0 ,255,200f);
-        for (int i = 0; i < accesedPoints.size();i++){
-          g.rect((float) (accesedPoints.get(i).X * sqrWidth),(float) (accesedPoints.get(i).Y*sqrHeigth), (float) sqrWidth,(float) sqrHeigth);
-        }
+      g.fill(0,0 ,255,200f);
+      if (end != -1){
+        g.fill(0,0 ,255,100f);
+      }
+      for (int i = 0; i < accesedPoints.size();i++){
+        g.rect((float) (accesedPoints.get(i).X * sqrWidth),(float) (accesedPoints.get(i).Y*sqrHeigth), (float) sqrWidth,(float) sqrHeigth);
+      }
         g.fill(0, 255, 0,200f);
+        if (end != -1){
+          g.fill(0,255 ,0,100f);
+        }
         while (point.hasNext()){
           try {
             Point p = point.next();
             g.rect((float) (p.X * sqrWidth),(float) (p.Y*sqrHeigth), (float) sqrWidth,(float) sqrHeigth);
           } catch (IndexOutOfBoundsException e) {}
         }
-      }else{
-        g.fill(0,0 ,255,100f);
-        for (int i = 0; i < accesedPoints.size();i++){
-          g.rect((float) (accesedPoints.get(i).X * sqrWidth),(float) (accesedPoints.get(i).Y*sqrHeigth), (float) sqrWidth,(float) sqrHeigth);
-        }
+        if (end != -1){
         // g.fill(0, 255, 0,100f);
         // for (int i = 0; i < currentPoints.size();i++){
         //   g.rect(currentPoints.get(i).X * sqrWidth, currentPoints.get(i).Y*sqrHeigth, sqrWidth, sqrHeigth);
@@ -183,5 +180,17 @@ public class recursiveSolver extends Solver{
       g.fill(255);
       g.rect((float) (start.X * sqrWidth),(float) (start.Y*sqrHeigth),(float) sqrWidth,(float) sqrHeigth);
     }
+  }
+
+  @Override
+  public int getLength() {
+    int length = 0;
+    Point temp = currentPoints.get(end);
+    while (temp.path.X != -1 && temp.path.Y != -1){
+      length++;
+      temp = temp.path;
+    }
+    
+    return length;
   }
 }

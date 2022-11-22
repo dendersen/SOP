@@ -7,6 +7,10 @@ import mtdm.dk.labyrinth.Labyrinth;
 public abstract class Solver {
   public Thread Calc;
   public Thread Draw;
+  public int startX;
+  public int startY;
+  public int goalX;
+  public int goalY;
   public static Solver generator(int id, Labyrinth maze, int startX,int startY,int endX,int endY){
     switch (id) {
       case 0:
@@ -17,6 +21,10 @@ public abstract class Solver {
         return new ManhattanRecurse(maze, startX, startY, endX, endY);
       case 3:
         return new RandomRecurse(maze, startX, startY, endX, endY);
+      case 4:
+        return new DepthFirstSearch(maze, startX, startY, endX, endY);
+      case 5:
+        return new WidthFirstSearch(maze, startX, startY, endX, endY);
       default:
         return new recursiveSolver(maze, startX, startY, endX, endY);
     }
@@ -33,7 +41,6 @@ public abstract class Solver {
   }
   public abstract Thread callMovement();
   public abstract Thread callDrawing();
-  public void swapPoints() {}
-  //TODO: recurse but random
-  //TODO: just random
+  public abstract int getLength();
+  public void swapPoints(){};
 }

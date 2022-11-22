@@ -8,14 +8,23 @@ public class test {
   static Sketch draw;
   public static void main(String[] args) throws InterruptedException {
     Instant start = Instant.now();
-
+    
     String[] processingArgs = {"Sketch"};
-    draw = new Sketch((byte) 3,(byte) 2,180,180,1200);
+    draw = new Sketch((byte) 2,2,100,100,1200,-1);
     PApplet.runSketch(processingArgs,draw);
-    if(draw.goal()){
-      Instant end = Instant.now();
-      Duration timeElapsed = Duration.between(start, end);
-      System.out.println("Time taken: "+ timeElapsed.toMillis() +" milliseconds");
+    while (!draw.goal()) {
+      System.out.print("");
     }
+    
+    Instant end = Instant.now();
+    Duration timeElapsed = Duration.between(start, end);
+    System.out.println("\nTime taken: "+ timeElapsed.toMillis() +" milliseconds");
+    
+    int real = draw.getLength();
+    int opti = draw.optimalLength();
+    
+    System.out.println("real length: " + real);
+    System.out.println("best length: " + opti);
+    System.out.println("effeciency: " + ((float)opti/(float)real));
   }
 }

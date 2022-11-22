@@ -5,9 +5,7 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 import mtdm.dk.labyrinth.Labyrinth;
 import mtdm.dk.labyrinth.LabyrinthGen;
-import mtdm.dk.solvers.WallFollower;
 import mtdm.dk.solvers.Solver;
-import mtdm.dk.solvers.recursiveSolver;
 
 public class Sketch extends PApplet{
 
@@ -30,12 +28,24 @@ public class Sketch extends PApplet{
   int scramble = 4;
   int numberOfDraw = 3;
   
-  public Sketch(byte solverID, byte MaksimumBranches,int Width,int Height,int desire){
+  /**
+   * @param solverID
+   * @param MaksimumBranches
+   * @param Width
+   * @param Height
+   * @param desire
+   * @param Loader loads old labyrinths unless = -1
+   */
+  public Sketch(byte solverID, int MaksimumBranches,int Width,int Height,int desire,int Loader){
     this.solverID = solverID;
     if(Width * Height > 800){
       System.out.println("creating labyrinth, this might take a while");
     }
+    if (Loader < 0){
     maze = LabyrinthGen.maze(g, Width, Height, MaksimumBranches, scramble);
+    }else{
+      maze = LabyrinthGen.LoadLaborinthFromFile(Loader, g);
+    }
     System.out.println("labyrinth finished");
     Point start = maze.findPath();
     Point end = maze.findPath(start);
@@ -46,7 +56,7 @@ public class Sketch extends PApplet{
     for (int i = 0; i < numberOfDraw; i++) {
       for (int j = 0; j < numberOfDraw; j++) {
         labo[i*numberOfDraw+j] = new LabDraw();
-        labo[i*numberOfDraw+j].start(maze.width/numberOfDraw*i,maze.width/numberOfDraw*j,maze.height/numberOfDraw*(i+1),maze.height/numberOfDraw*(j+1));
+        labo[i*numberOfDraw+j].start(maze.width/numberOfDraw*i-1,maze.width/numberOfDraw*j-1,maze.height/numberOfDraw*(i+1)+1,maze.height/numberOfDraw*(j+1)+1);
       };
     }
   }
@@ -185,5 +195,13 @@ public class Sketch extends PApplet{
   }
   public boolean goal(){
     return solver.complete();
+  }
+  public int getLength() {
+    return solver.getLength();
+  }
+  public int optimalLength(){
+    int x = abs(solver.goalX - solver.startX);
+    int y = abs(solver.goalY - solver.startY);
+    return x+y;
   }
 }

@@ -2,6 +2,7 @@ package mtdm.dk.solvers;
 
 import java.util.ArrayList;
 
+
 import mtdm.dk.Thread;
 import mtdm.dk.labyrinth.Labyrinth;
 import processing.core.PGraphics;
@@ -13,10 +14,6 @@ public class WallFollower extends Solver{
   public ArrayList <Integer[]> path = new ArrayList <Integer[]>();
   int X;
   int Y;
-  int goalX;
-  int goalY;
-  int startX;
-  int startY;
   boolean isGenerated = false;
   boolean isGenerated2 = false;
 
@@ -209,5 +206,18 @@ public class WallFollower extends Solver{
         }
       }
     }
+  }
+
+  @Override
+  public int getLength() {
+    int length = 1;
+    Integer[] temp = path.get(0);
+    for (int i = 1; i < path.size();i++){
+      if(temp[0] != path.get(i)[0] || temp[2] != path.get(i)[2]){
+        length++;
+        temp = path.get(i);
+      }
+    }
+    return length;
   }
 }
