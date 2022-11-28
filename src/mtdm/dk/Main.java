@@ -9,19 +9,23 @@ public class Main {
   static Sketch draw;
   public static void main(String[] args) throws InterruptedException {
     Instant start = Instant.now();
-
-    String[] processingArgs = {"Sketch"};
-    draw = new Sketch((byte) 1,(byte) 1,20,20,800,-1);
-    PApplet.runSketch(processingArgs,draw);
     
-    //your code
-    while(!draw.goal()){
-      Thread.sleep(2);
+    String[] processingArgs = {"Sketch"};
+    draw = new Sketch((byte) 2,2,100,100,1200,0,3);
+    PApplet.runSketch(processingArgs,draw);
+    while (!draw.goal()) {
+      System.out.print("");
     }
-    if(draw.goal()){
-      Instant end = Instant.now();
-      Duration timeElapsed = Duration.between(start, end);
-      System.out.println("Time taken: "+ timeElapsed.toMillis() +" milliseconds");
-    }
+    
+    Instant end = Instant.now();
+    Duration timeElapsed = Duration.between(start, end);
+    System.out.println("\nTime taken: "+ timeElapsed.toMillis() +" milliseconds");
+    
+    int real = draw.getLength();
+    int opti = draw.optimalLength();
+    
+    System.out.println("real length: " + real);
+    System.out.println("best length: " + opti);
+    System.out.println("effeciency: " + ((float)opti/(float)real));
   }
 }

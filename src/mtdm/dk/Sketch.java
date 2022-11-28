@@ -10,9 +10,9 @@ import mtdm.dk.solvers.Solver;
 public class Sketch extends PApplet{
 
   LabDraw[] labo;
-  final int threadCount = 10;
-  Thread movers[] = new Thread[threadCount];
-  Thread drawers[] = new Thread[1];
+  final int threadCount;
+  Thread[] movers;
+  Thread[] drawers;
 
   static PGraphics g;
   static double sqrWidth;
@@ -36,7 +36,11 @@ public class Sketch extends PApplet{
    * @param desire
    * @param Loader loads old labyrinths unless = -1
    */
-  public Sketch(byte solverID, int MaksimumBranches,int Width,int Height,int desire,int Loader){
+  public Sketch(byte solverID, int MaksimumBranches,int Width,int Height,int desire,int Loader,int threadCount){
+    this.threadCount = threadCount;
+    movers = new Thread[threadCount];
+    drawers = new Thread[Math.max(threadCount/10,1)];
+
     this.solverID = solverID;
     if(Width * Height > 800){
       System.out.println("creating labyrinth, this might take a while");
