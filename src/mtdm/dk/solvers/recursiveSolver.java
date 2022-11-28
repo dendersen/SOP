@@ -58,8 +58,10 @@ public class recursiveSolver extends Solver{
     temp.add(new Point(current.X-1,current.Y,current));
     temp.add(new Point(current.X,current.Y+1,current));
     temp.add(new Point(current.X,current.Y-1,current));
+    
     return temp;
   }
+  
   @Override
   public void draw(PGraphics g,  double sqrWidth, double sqrHeigth){
     drawer draw = new drawer();
