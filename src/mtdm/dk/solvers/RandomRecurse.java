@@ -2,6 +2,7 @@ package mtdm.dk.solvers;
 
 import mtdm.dk.Point;
 import mtdm.dk.Thread;
+import mtdm.dk.bigO;
 import mtdm.dk.labyrinth.Labyrinth;
 
 public class RandomRecurse extends recursiveSolver{
@@ -50,7 +51,8 @@ public class RandomRecurse extends recursiveSolver{
             Point current = currentPoints.remove((int) Math.floor(Math.random()*currentPoints.size()));
             if (checkPoint(current)){
               newPoints.addAll(addPrepPoints(current));
-              accesedPoints.add(current);
+            bigO.arrayAcces++;
+            accesedPoints.add(current);
             }
             toBeDrawn.addAll(currentPoints);
           }catch(Exception e){System.out.println("empty");}

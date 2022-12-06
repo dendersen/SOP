@@ -11,8 +11,10 @@ public class Main {
     Instant start = Instant.now();
     
     String[] processingArgs = {"Sketch"};
-    draw = new Sketch((byte) 5,2,100,100,1200,-1,3);
+
+    draw = new Sketch((byte) 1,5,250,300,1200,0,30);
     PApplet.runSketch(processingArgs,draw);
+
     while (!draw.goal()) {
       System.out.print("");
     }
@@ -27,5 +29,7 @@ public class Main {
     System.out.println("real length: " + real);
     System.out.println("best length: " + opti);
     System.out.println("effeciency: " + ((float)opti/(float)real));
+    System.out.println("path checks: " + bigO.pathCheck);
+    System.out.println("total array acces: " + (bigO.arrayAcces+bigO.arrayAcces));
   }
 }

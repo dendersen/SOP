@@ -88,7 +88,7 @@ public class LabyrinthGen {
     paths += (maze.isPath(p.X, p.Y-1) ? 1 : 0);
     ArrayList<Point> a = new ArrayList<Point>();
 
-    if((scramble == 1 || (int) Math.floor(Math.random()*(scramble*5)) != 0)&&
+    if((sprawl == 1 || (int) Math.floor(Math.random()*(sprawl*5)) != 0)&&
     !(paths <= 1)) return a;
     if((int) Math.floor(Math.random()*(scramble)) == 0) return a;
     if(!maze.modifyLaborinth(p.X, p.Y, true))return a;

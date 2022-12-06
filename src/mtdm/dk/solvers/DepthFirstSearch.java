@@ -2,6 +2,7 @@ package mtdm.dk.solvers;
 
 import mtdm.dk.Point;
 import mtdm.dk.Thread;
+import mtdm.dk.bigO;
 import mtdm.dk.labyrinth.Labyrinth;
 
 public class DepthFirstSearch extends recursiveSolver{
@@ -35,6 +36,7 @@ public class DepthFirstSearch extends recursiveSolver{
           Point current = currentPoints.remove(currentPoints.size()-1);
           if (checkPoint(current)){
             newPoints.addAll(addPrepPoints(current));
+            bigO.arrayAcces++;
             accesedPoints.add(current);
           }
           toBeDrawn.addAll(currentPoints);

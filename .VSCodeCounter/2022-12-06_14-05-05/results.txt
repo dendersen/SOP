@@ -1,0 +1,46 @@
+Date : 2022-12-06 14:05:05
+Directory : c:\.programering\SOP
+Total : 16 files,  1243 codes, 74 comments, 113 blanks, all 1430 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| Java     |         15 |      1,233 |         74 |        104 |      1,411 |
+| Markdown |          1 |         10 |          0 |          9 |         19 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++----------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                           | files      | code       | comment    | blank      | total      |
++----------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                              |         16 |      1,243 |         74 |        113 |      1,430 |
+| src                                                            |         15 |      1,233 |         74 |        104 |      1,411 |
+| src\mtdm                                                       |         15 |      1,233 |         74 |        104 |      1,411 |
+| src\mtdm\dk                                                    |         15 |      1,233 |         74 |        104 |      1,411 |
+| src\mtdm\dk\labyrinth                                          |          3 |        345 |         33 |         26 |        404 |
+| src\mtdm\dk\solvers                                            |          7 |        642 |         31 |         51 |        724 |
++----------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++----------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                       | language | code       | comment    | blank      | total      |
++----------------------------------------------------------------+----------+------------+------------+------------+------------+
+| c:\.programering\SOP\README.md                                 | Markdown |         10 |          0 |          9 |         19 |
+| c:\.programering\SOP\src\mtdm\dk\Main.java                     | Java     |         26 |          0 |          7 |         33 |
+| c:\.programering\SOP\src\mtdm\dk\Point.java                    | Java     |         20 |          0 |          2 |         22 |
+| c:\.programering\SOP\src\mtdm\dk\Sketch.java                   | Java     |        187 |         10 |         14 |        211 |
+| c:\.programering\SOP\src\mtdm\dk\Thread.java                   | Java     |          7 |          0 |          2 |          9 |
+| c:\.programering\SOP\src\mtdm\dk\bigO.java                     | Java     |          6 |          0 |          2 |          8 |
+| c:\.programering\SOP\src\mtdm\dk\labyrinth\Labyrinth.java      | Java     |        139 |         26 |         10 |        175 |
+| c:\.programering\SOP\src\mtdm\dk\labyrinth\LabyrinthGen.java   | Java     |        136 |          7 |         10 |        153 |
+| c:\.programering\SOP\src\mtdm\dk\labyrinth\labyrinthSaver.java | Java     |         70 |          0 |          6 |         76 |
+| c:\.programering\SOP\src\mtdm\dk\solvers\DepthFirstSearch.java | Java     |         45 |          0 |          6 |         51 |
+| c:\.programering\SOP\src\mtdm\dk\solvers\ManhattanRecurse.java | Java     |         63 |          8 |          5 |         76 |
+| c:\.programering\SOP\src\mtdm\dk\solvers\RandomRecurse.java    | Java     |         52 |          8 |          5 |         65 |
+| c:\.programering\SOP\src\mtdm\dk\solvers\Solver.java           | Java     |         44 |          0 |          2 |         46 |
+| c:\.programering\SOP\src\mtdm\dk\solvers\WallFollower.java     | Java     |        214 |          4 |         13 |        231 |
+| c:\.programering\SOP\src\mtdm\dk\solvers\WidthFirstSearch.java | Java     |         45 |          0 |          6 |         51 |
+| c:\.programering\SOP\src\mtdm\dk\solvers\recursiveSolver.java  | Java     |        179 |         11 |         14 |        204 |
+| Total                                                          |          |      1,243 |         74 |        113 |      1,430 |
++----------------------------------------------------------------+----------+------------+------------+------------+------------+

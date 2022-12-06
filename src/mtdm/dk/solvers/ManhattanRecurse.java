@@ -2,6 +2,7 @@ package mtdm.dk.solvers;
 
 import mtdm.dk.Point;
 import mtdm.dk.Thread;
+import mtdm.dk.bigO;
 import mtdm.dk.labyrinth.Labyrinth;
 
 public class ManhattanRecurse extends recursiveSolver{
@@ -50,7 +51,8 @@ public class ManhattanRecurse extends recursiveSolver{
         int dist = (int)1e300;
         for(int j = currentPoints.size()-1; j >= currentPoints.size()-depth && j >= 0; j--){
           int tempDist = (currentPoints.get(j).X - goalX) + (currentPoints.get(j).Y - goalY);
-          if(tempDist < dist){
+            bigO.arrayAcces+=2;
+            if(tempDist < dist){
             dist = tempDist;
             index = j;
           }
@@ -59,6 +61,7 @@ public class ManhattanRecurse extends recursiveSolver{
           Point current = currentPoints.remove(index);
           if (checkPoint(current)){
             newPoints.addAll(addPrepPoints(current));
+            bigO.arrayAcces++;
             accesedPoints.add(current);
           }
           toBeDrawn.addAll(currentPoints);
