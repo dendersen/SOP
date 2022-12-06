@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 
 import mtdm.dk.Thread;
+import mtdm.dk.bigO;
 import mtdm.dk.labyrinth.Labyrinth;
 import processing.core.PGraphics;
 
@@ -48,6 +49,7 @@ public class WallFollower extends Solver{
     path.add(state);
   }
   private boolean canMove() {
+    bigO.pathCheck++;
     switch(orientation){
       case 0:
       return maze.isPath(X, Y-1);
@@ -147,6 +149,7 @@ public class WallFollower extends Solver{
         g.strokeWeight(5);
         g.stroke(0, 255, 0);
         for (int i = 1; i < path.size();i++){
+          bigO.arrayAcces+=2;
           Integer[] point1 = path.get(i);
           Integer[] point2 = path.get(i-1);
           double offsetX1 = 0;
@@ -154,6 +157,7 @@ public class WallFollower extends Solver{
           double offsetX2 = 0;
           double offsetY2 = 0;
           
+          bigO.arrayAcces++;
           switch (point1[2]) {
             case 0:
               offsetX1 = sqrWidth;
@@ -172,7 +176,8 @@ public class WallFollower extends Solver{
               offsetY1 = 0;
             break;
           }
-          switch (point2[2]) {
+          bigO.arrayAcces++;
+            switch (point2[2]) {
             case 0:
               offsetX2 = sqrWidth;
               offsetY2 = sqrHeigth/2;
@@ -211,10 +216,13 @@ public class WallFollower extends Solver{
   @Override
   public int getLength() {
     int length = 1;
+    bigO.arrayAcces++;
     Integer[] temp = path.get(0);
     for (int i = 1; i < path.size();i++){
+      bigO.arrayAcces+=2;
       if(temp[0] != path.get(i)[0] || temp[2] != path.get(i)[2]){
         length++;
+        bigO.arrayAcces++;
         temp = path.get(i);
       }
     }

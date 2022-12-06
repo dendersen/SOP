@@ -1,6 +1,7 @@
 package mtdm.dk.labyrinth;
 
 import mtdm.dk.Point;
+import mtdm.dk.bigO;
 import processing.core.PGraphics;
 
 public class Labyrinth{

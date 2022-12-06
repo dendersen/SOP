@@ -7,6 +7,7 @@ import mtdm.dk.Point;
 import mtdm.dk.labyrinth.Labyrinth;
 import processing.core.PGraphics;
 import mtdm.dk.Thread;
+import mtdm.dk.bigO;
 
 public class recursiveSolver extends Solver{
   protected Labyrinth maze;
@@ -45,15 +46,17 @@ public class recursiveSolver extends Solver{
     this.Calc.run();
   }
   protected boolean checkPoint(Point current) {
+    bigO.pathCheck++;
     boolean bool = true;
     for (int i = 0; i < accesedPoints.size() && bool;i++){
+      bigO.arrayAcces+=2;
       bool = !(accesedPoints.get(i).X == current.X && accesedPoints.get(i).Y == current.Y);
     }
     return maze.isPath(current.X, current.Y) && bool;
   }
   protected ArrayList<Point> addPrepPoints(Point current) {
     ArrayList<Point> temp = new ArrayList<Point>();
-    
+    bigO.arrayAcces+=4;
     temp.add(new Point(current.X+1,current.Y,current));
     temp.add(new Point(current.X-1,current.Y,current));
     temp.add(new Point(current.X,current.Y+1,current));
@@ -70,14 +73,16 @@ public class recursiveSolver extends Solver{
   }
   protected boolean finished(){
     for (int i = 0; i < currentPoints.size();i++){
-      if (currentPoints.get(i).X == goalX && currentPoints.get(i).Y == goalY){
-        return true;
+        bigO.arrayAcces+=2;
+        if (currentPoints.get(i).X == goalX && currentPoints.get(i).Y == goalY){
+          return true;
       }
     }
     return false;
   }
   protected int finishedPoint(){
     for (int i = 0; i < currentPoints.size();i++){
+      bigO.arrayAcces+=2;
       if (currentPoints.get(i).X == goalX && currentPoints.get(i).Y == goalY){
         return i;
       }
@@ -120,7 +125,8 @@ public class recursiveSolver extends Solver{
             Point current = currentPoints.remove(0);
             if (checkPoint(current)){
               newPoints.addAll(addPrepPoints(current));
-              accesedPoints.add(current);
+            bigO.arrayAcces++;
+            accesedPoints.add(current);
             }
             toBeDrawn.add(current);
           }
