@@ -12,7 +12,7 @@ public class Main {
     
     String[] processingArgs = {"Sketch"};
 
-    draw = new Sketch((byte) 1,5,250,300,1200,0,30);
+    draw = new Sketch((byte) 4,5,250,300,1200,0,5);
     PApplet.runSketch(processingArgs,draw);
 
     while (!draw.goal()) {
