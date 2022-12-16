@@ -39,7 +39,7 @@ public class labyrinthSaver extends Thread{
     }
     try {
       FileWriter myWriter = new FileWriter("Save.txt");
-      myWriter.write(data + "\n\n" + mazeString);
+      myWriter.write(mazeString + "\n\n" + data);
       myWriter.close();
       System.out.println("Successfully wrote to the file.");
     } catch (IOException e) {

@@ -77,7 +77,15 @@ public class LabyrinthGen {
     return active;
   }
 
-  private static ArrayList<Point> modelMaze(Labyrinth maze,Point p, int sprawl, int scramble){
+  /**
+   * 
+   * @param maze the mace being modified
+   * @param p the point to be checked
+   * @param density chances the chance of a path is placed, even if there are more than one path connected
+   * @param scramble sets a chance a path that would otherwise have been places is not placed
+   * @return
+   */
+  private static ArrayList<Point> modelMaze(Labyrinth maze,Point p, int density, int scramble){
     // if (density >= 2 && (int) Math.floor(Math.random()) == 12){
     //   maze.modifyLaborinth(p.X, p.Y, true);
     // }
@@ -88,9 +96,12 @@ public class LabyrinthGen {
     paths += (maze.isPath(p.X, p.Y-1) ? 1 : 0);
     ArrayList<Point> a = new ArrayList<Point>();
 
-    if((sprawl == 1 || (int) Math.floor(Math.random()*(sprawl*5)) != 0)&&
-    !(paths <= 1)) return a;
-    if((int) Math.floor(Math.random()*(scramble)) == 0) return a;
+    if((density < 1 ||
+    (int) Math.floor(Math.random()*(density*5)) != 0)&&
+    (paths > 1)) return a;
+
+    if((int) Math.floor(Math.random()*(scramble)) <= 0) return a;
+    
     if(!maze.modifyLaborinth(p.X, p.Y, true))return a;
 
     a.add(new Point(p.X, p.Y+1));

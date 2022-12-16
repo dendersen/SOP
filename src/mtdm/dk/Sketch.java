@@ -25,28 +25,32 @@ public class Sketch extends PApplet{
   int Height;
   int Width;
   int desire;
-  int scramble = 4;
-  int numberOfDraw = 3;
+  int numberOfDraw;
   
   /**
-   * @param solverID
-   * @param MaksimumBranches
+   * @param solverID the solver to use
+   * @param density controlls the use of density in labyrinth generation, if less than 0 no ekstra paths will be forced
+   * @param scramble
    * @param Width
    * @param Height
-   * @param desire
+   * @param desire the desired size of the window
    * @param Loader loads old labyrinths unless = -1
+   * @param processingThreadCount
+   * @param drawingThreadCount
    */
-  public Sketch(byte solverID, int MaksimumBranches,int Width,int Height,int desire,int Loader,int threadCount){
-    this.threadCount = threadCount;
-    movers = new Thread[threadCount];
-    drawers = new Thread[Math.max(threadCount/10,1)];
+  public Sketch(byte solverID, int density, int scramble,int Width,int Height,int desire,int Loader,int processingThreadCount,int drawingThreadCount){
+    numberOfDraw = drawingThreadCount;
+    this.threadCount = processingThreadCount;
+    movers = new Thread[processingThreadCount];
+    drawers = new Thread[Math.max(processingThreadCount/10,1)];
+
 
     this.solverID = solverID;
     if(Width * Height > 800){
       System.out.println("creating labyrinth, this might take a while");
     }
     if (Loader < 0){
-    maze = LabyrinthGen.maze(g, Width, Height, MaksimumBranches, scramble);
+    maze = LabyrinthGen.maze(g, Width, Height, density, scramble);
     }else{
       maze = LabyrinthGen.LoadLaborinthFromFile(Loader, g);
     }
@@ -82,7 +86,7 @@ public class Sketch extends PApplet{
     strokeWeight(2);
     frameRate(60);
     // System.out.println(maze.toString());
-    maze.saveLaborinth("@");
+    maze.saveLaborinthFromFile("@");
   }
   
   @Override

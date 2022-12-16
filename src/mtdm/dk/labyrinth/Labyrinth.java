@@ -53,23 +53,35 @@ public class Labyrinth{
    * @return whether or not the given coordinates contain a path
    */
   public boolean isPath(int x,int y){
+    bigO.pathCheck++;
     if(x > width-1 || x < 0 || y > height-1 || y < 0){
       return false;
     }
     return labyrinthTile[x][y];
   }
-  public Point findPath(boolean up){
+  
+  private Point findPath(boolean up){
     if (up){
-      return brute(width-4,height-4,true);
+      return angledBrute(width-4,height-4,true);
     }else{
-      return brute(4,4,false);
+      return angledBrute(4,4,false);
     }
   }
   public Point findPath(){
-    
     return findPath(true);
   }
-  private Point brute (int x,int y, boolean up){
+  public Point findPath(Point notSame){
+    Point pos = findPath(false);
+    if((notSame.X == pos.X && notSame.Y == pos.Y)){
+      pos = new Point(0, 0);
+      while ((notSame.X == pos.X && notSame.Y == pos.Y)) {
+        pos = straightBrute(pos.X, pos.Y, false);
+      }
+    }
+    return pos;
+  }
+  
+  private Point angledBrute (int x,int y, boolean up){
     while(true){
       if (isPath(x, y)){
         return new Point(x,y);
@@ -82,31 +94,7 @@ public class Labyrinth{
           x = 0;
           y = 0;
         }
-        while(true){
-          if(
-            isPath(x, y) || 
-            isPath(x+1, y) || 
-            isPath(x-1, y) || 
-            isPath(x, y+1) || 
-            isPath(x, y-1)
-          ){
-            modifyLaborinth(x, y, true);
-            return new Point(x,y);
-          }
-          if(up){
-            x--;
-            if(x < 0){
-              x = width;
-              y--;
-            }
-          }else{
-            x++;
-            if(x > width){
-              x = 0;
-              y++;
-            }
-          }
-        }
+        return straightBrute(x,y,up);
       }
       if(up){
         x--;
@@ -117,11 +105,23 @@ public class Labyrinth{
       }
     }
   }
-  public Point findPath(Point notSame){
-    while (true){
-      Point pos = brute(4,4,false);
-      if(isPath(pos.X, pos.Y) && !(notSame.X == pos.X && notSame.Y == pos.Y)){
-        return pos;
+  private Point straightBrute(int x, int y, boolean up) {
+    while(true){
+      if(isPath(x, y)){
+        return new Point(x, y);
+      }
+      if(up){
+        x--;
+        if(x < 0){
+          x = width;
+          y--;
+        }
+      }else{
+        x++;
+        if(x > width){
+          x = 0;
+          y++;
+        }
       }
     }
   }
@@ -146,20 +146,21 @@ public class Labyrinth{
       String temp = "";
       for (int j = 0; j < height; j++){
         temp += (isPath(i,j) ? " ":"█");
+        bigO.pathCheck--;
       }
       out += "\"" + temp + "\",";
       out += "\n";
     }
     return out + "}";
   }
-  public void saveLaborinth(String regex){
-    System.out.println("start");
+  public void saveLaborinthFromFile(String regex){
+    System.out.println("starting labyrinthSaver");
     
     labyrinthSaver writer = new labyrinthSaver();
     writer.start(toString(), regex);
     Thread t = new Thread(writer);
     t.start();
-    System.out.println("end");
+    System.out.println("labyrinthSaver running");
   }
 
   // public int sum(){

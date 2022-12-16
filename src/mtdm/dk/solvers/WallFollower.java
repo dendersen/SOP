@@ -10,13 +10,13 @@ import processing.core.PGraphics;
 
 public class WallFollower extends Solver{
   
+  private int X;
+  private int Y;
   private Labyrinth maze;
-  byte orientation = 0;//0 = up follows the clock as it increases
-  public ArrayList <Integer[]> path = new ArrayList <Integer[]>();
-  int X;
-  int Y;
-  boolean isGenerated = false;
-  boolean isGenerated2 = false;
+  private byte orientation = 0;//0 = up follows the clock as it increases
+  private ArrayList <Integer[]> path = new ArrayList <Integer[]>();
+  private boolean isGenerated = false;
+  private boolean isGenerated2 = false;
 
   public WallFollower(Labyrinth labyrinth, int startX,int startY,int endX,int endY){
     this.maze = labyrinth;
@@ -49,7 +49,6 @@ public class WallFollower extends Solver{
     path.add(state);
   }
   private boolean canMove() {
-    bigO.pathCheck++;
     switch(orientation){
       case 0:
       return maze.isPath(X, Y-1);
@@ -129,7 +128,6 @@ public class WallFollower extends Solver{
   }
 
   public class drawer extends Thread {
-    int step;
     boolean isReal;
     PGraphics g;
     double sqrWidth;
@@ -227,5 +225,13 @@ public class WallFollower extends Solver{
       }
     }
     return length;
+  }
+  @Override
+  public void move(int steps) {
+    System.out.println("this method does not work for WallFollower");
+  }
+  @Override
+  public void draw(PGraphics g, double sqrWidth, double sqrHeigth) {
+    System.out.println("this method does not work for WallFollower");
   }
 }

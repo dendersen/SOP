@@ -17,8 +17,6 @@ public class RandomRecurse extends recursiveSolver{
   public RandomRecurse(Labyrinth labyrinth, int startX, int startY, int endX, int endY) {
     super(labyrinth, startX, startY, endX, endY);
     this.maze = labyrinth;
-    this.X = startX;
-    this.Y = startY;
     this.startX = startX;
     this.startY = startY;
     this.goalX = endX;

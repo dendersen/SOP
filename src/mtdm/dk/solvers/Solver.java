@@ -29,16 +29,9 @@ public abstract class Solver {
         return new recursiveSolver(maze, startX, startY, endX, endY);
     }
   }
-  public void move(int steps){
-    System.out.println("this  method has not  been  implemented in  this class");
-  }
-  public void draw(PGraphics g,double sqrWidth, double sqrHeigth){
-    System.out.println("this  method has not  been  implemented in  this class");
-  }
-  public boolean complete(){
-    System.out.println("this  method has not  been  implemented in  this class");
-    return false;
-  }
+  public abstract void move(int steps);
+  public abstract void draw(PGraphics g,double sqrWidth, double sqrHeigth);
+  public abstract boolean complete();
   public abstract Thread callMovement();
   public abstract Thread callDrawing();
   public abstract int getLength();

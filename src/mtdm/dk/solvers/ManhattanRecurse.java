@@ -7,7 +7,7 @@ import mtdm.dk.labyrinth.Labyrinth;
 
 public class ManhattanRecurse extends recursiveSolver{
   // protected ArrayList<Point> currentPoints = new ArrayList<Point>();
-  int depth = 10;
+  private int maxDepth = 10;
   /**
    * @param labyrinth
    * @param startX
@@ -18,8 +18,6 @@ public class ManhattanRecurse extends recursiveSolver{
   public ManhattanRecurse(Labyrinth labyrinth, int startX, int startY, int endX, int endY) {
     super(labyrinth, startX, startY, endX, endY);
     this.maze = labyrinth;
-    this.X = startX;
-    this.Y = startY;
     this.startX = startX;
     this.startY = startY;
     this.goalX = endX;
@@ -49,7 +47,7 @@ public class ManhattanRecurse extends recursiveSolver{
       }else{
         int index = 0;
         int dist = (int)1e300;
-        for(int j = currentPoints.size()-1; j >= currentPoints.size()-depth && j >= 0; j--){
+        for(int j = currentPoints.size()-1; j >= currentPoints.size()-maxDepth && j >= 0; j--){
           int tempDist = (currentPoints.get(j).X - goalX) + (currentPoints.get(j).Y - goalY);
             bigO.arrayAcces+=2;
             if(tempDist < dist){

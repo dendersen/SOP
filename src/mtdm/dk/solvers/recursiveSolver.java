@@ -11,8 +11,6 @@ import mtdm.dk.bigO;
 
 public class recursiveSolver extends Solver{
   protected Labyrinth maze;
-  protected int X;
-  protected int Y;
   protected ArrayList<Point> accesedPoints = new ArrayList<Point>();
   protected ArrayList<Point> currentPoints = new ArrayList<Point>();
   protected ArrayList<Point> newPoints = new ArrayList<Point>();
@@ -32,8 +30,6 @@ public class recursiveSolver extends Solver{
    */
   public recursiveSolver(Labyrinth labyrinth, int startX, int startY,int endX, int endY){
     this.maze = labyrinth;
-    this.X = startX;
-    this.Y = startY;
     this.startX = startX;
     this.startY = startY;
     this.goalX = endX;
@@ -46,7 +42,6 @@ public class recursiveSolver extends Solver{
     this.Calc.run();
   }
   protected boolean checkPoint(Point current) {
-    bigO.pathCheck++;
     boolean bool = true;
     for (int i = 0; i < accesedPoints.size() && bool;i++){
       bigO.arrayAcces+=2;
@@ -138,9 +133,9 @@ public class recursiveSolver extends Solver{
 
   public class drawer extends Thread{
     boolean isAlive = false;
-    PGraphics g;
-    double sqrWidth;
-    double sqrHeigth;
+    private PGraphics g;
+    private double sqrWidth;
+    private double sqrHeigth;
     public void start(PGraphics g,  double sqrWidth, double sqrHeigth){
       this.g = g;
       this.sqrWidth = sqrWidth;
@@ -182,7 +177,7 @@ public class recursiveSolver extends Solver{
       isAlive = false;
       toBeDrawn.clear();
     }
-    protected void drawRecurse(PGraphics g,Point start,double sqrWidth,double sqrHeigth) {
+    private void drawRecurse(PGraphics g,Point start,double sqrWidth,double sqrHeigth) {
       if (start.path.X == -1) return;
       drawRecurse(g, start.path, sqrWidth, sqrHeigth);
       g.fill(255);
