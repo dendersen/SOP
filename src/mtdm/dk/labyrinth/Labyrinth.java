@@ -83,6 +83,7 @@ public class Labyrinth{
   
   private Point angledBrute (int x,int y, boolean up){
     while(true){
+      bigO.pathCheck--;//prevent incorecct pathCheck
       if (isPath(x, y)){
         return new Point(x,y);
       }
@@ -107,6 +108,7 @@ public class Labyrinth{
   }
   private Point straightBrute(int x, int y, boolean up) {
     while(true){
+      bigO.pathCheck--;//prevent incorecct pathCheck
       if(isPath(x, y)){
         return new Point(x, y);
       }
@@ -146,7 +148,7 @@ public class Labyrinth{
       String temp = "";
       for (int j = 0; j < height; j++){
         temp += (isPath(i,j) ? " ":"█");
-        bigO.pathCheck--;
+        bigO.pathCheck--;//prevent incorecct pathCheck
       }
       out += "\"" + temp + "\",";
       out += "\n";

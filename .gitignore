@@ -2,6 +2,6 @@ Save*.txt
 Save.txt
 Save1*.txt
 Save0.txt
-*.class
-bin/*
+**.class
+bin/**
 class

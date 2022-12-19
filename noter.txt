@@ -6,7 +6,7 @@ formalier og opbygning til min 7
 iterativ skridtvis del og hærsk
 
 5p
- produkt, problem identifikation, princip
+ produkt, problem identifikation, produkt princip, produkt udformning, produkt forberedelse
 hav om methoder hvordan de kan bruges og spiller sammen og ikke gør.
 
 iterativer processor visuelisere fære punkter for den ser bedre ud.
