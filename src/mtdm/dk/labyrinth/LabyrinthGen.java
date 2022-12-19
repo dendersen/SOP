@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import mtdm.dk.Point;
+import mtdm.dk.bigO;
 import processing.core.PGraphics;
 
 public class LabyrinthGen {
@@ -59,6 +60,7 @@ public class LabyrinthGen {
     for (int i = 0; i < maze.width; i++) {
       for (int j = 0; j < maze.height; j++) {
         sum += maze.isPath(i, j) ? 1 : 0;
+        bigO.pathCheck--;//prevent incorecct pathCheck
       }
     }
     if((float) sum / (maze.width * maze.height) > 0.35){
@@ -94,7 +96,8 @@ public class LabyrinthGen {
     paths += (maze.isPath(p.X-1, p.Y) ? 1 : 0);
     paths += (maze.isPath(p.X, p.Y+1) ? 1 : 0);
     paths += (maze.isPath(p.X, p.Y-1) ? 1 : 0);
-    ArrayList<Point> a = new ArrayList<Point>();
+      bigO.pathCheck-=4;//prevent incorecct pathCheck
+      ArrayList<Point> a = new ArrayList<Point>();
 
     if((density < 1 ||
     (int) Math.floor(Math.random()*(density*5)) != 0)&&
