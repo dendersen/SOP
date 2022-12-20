@@ -17,7 +17,13 @@ public class WallFollower extends Solver{
   private ArrayList <Integer[]> path = new ArrayList <Integer[]>();
   private boolean isGenerated = false;
   private boolean isGenerated2 = false;
-
+/**
+   * @param labyrinth the labyrinth that the program should work on
+   * @param startX the starting x coordinate of the algorithm
+   * @param startY the starting y coordinate of the algorithm
+   * @param endX the ending x coordinate of the algorithm
+   * @param endY the ending y coordinate of the algorithm
+ */
   public WallFollower(Labyrinth labyrinth, int startX,int startY,int endX,int endY){
     this.maze = labyrinth;
     this.X = startX;
@@ -29,6 +35,9 @@ public class WallFollower extends Solver{
     Integer[] start = {X,Y,0,0};
     path.add(start);
   }
+  /**
+   * does a movement
+   */
   private void movement() {
     turnWithClock();
     while (!canMove()) {
@@ -40,7 +49,8 @@ public class WallFollower extends Solver{
     savePoint(true);
   }
   /**
-   * @param didMove
+   * saves a point to the path
+   * @param didMove tells the method if the point to be saved had a movement in it
    */
   private void savePoint(Boolean didMove) {
     int move = (didMove ? 1 : 0);
@@ -48,6 +58,9 @@ public class WallFollower extends Solver{
     state = new Integer[]{X,Y,(int) orientation, move};
     path.add(state);
   }
+  /**
+   * @return wether or not there is a wall in front of the algorithm
+   */
   private boolean canMove() {
     switch(orientation){
       case 0:
@@ -64,6 +77,9 @@ public class WallFollower extends Solver{
     System.out.println(" is not an orientation");
     return false;
   }
+  /**
+   * commits to a movement
+   */
   private void doMovement() {
     switch(orientation){
       case 0:
@@ -83,41 +99,72 @@ public class WallFollower extends Solver{
     System.out.print(orientation);
     System.out.println(" is not an orientation");
   }
+  /**
+   * turns the algoritmn against the clock
+   */
   private void turnAgainstClock() {
     orientation = (byte) ((orientation+3)%4);
   }
+  /**
+   * turns the algoritmn with the clock
+   */
   private void turnWithClock() {
     orientation = (byte) ((orientation+1)%4);
   }
-
+  /**
+   * tells you wether the program has found a solution
+   */
   @Override
   public boolean complete(){
     return X == goalX && Y == goalY;
   }
+  /**
+   * returns a movement
+   */
   @Override
   public Thread callMovement() {
     mover a = new mover(!isGenerated);
     isGenerated=true;
     return a;
   }
+  /**
+   * returns a Thread capable of drawing this algorithm to the screen 
+   */
   @Override
   public Thread callDrawing() {
     drawer a = new drawer(!isGenerated2);
     isGenerated2 = true;
     return a;
   }
+  /**
+   * the thread that handles movement for this algorithm
+   */
   public class mover extends Thread {
+    /**
+     * the number of times the calculations should repeat per call
+     */
     int step;
+    /**
+     * whether this thread will do anything
+     */
     boolean isReal;
-    
+    /**
+     * creates the Thread
+     * @param real wether this Thread will be real
+     */
     public mover(boolean real){
       isReal = real;
     }
-    
+    /**
+     * prepares for calculations
+     */
     @Override
     public void start(int steps){
       this.step = steps;
     }
+    /**
+     * starts calculations
+     */
     public void run(){
       if(isReal){
         for (int i = 0; i < this.step && !(X == goalX && Y == goalY); i++){
@@ -126,12 +173,20 @@ public class WallFollower extends Solver{
       }
     }
   }
-
+/**
+ * the thread that draws this algorithm to the screen
+ */
   public class drawer extends Thread {
+    /**
+     * whether this thread will do anything
+     */
     boolean isReal;
     PGraphics g;
     double sqrWidth;
     double sqrHeigth;
+    /**
+     * @param real wether this Thread will be real
+     */
     public drawer(boolean real){
       this.isReal = real;
     }

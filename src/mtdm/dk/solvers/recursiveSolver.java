@@ -11,22 +11,36 @@ import mtdm.dk.bigO;
 
 public class recursiveSolver extends Solver{
   protected Labyrinth maze;
+  /**
+   * the points that have been accesed before
+   */
   protected ArrayList<Point> accesedPoints = new ArrayList<Point>();
+  /**
+   * the points that have yet to be used
+   */
   protected ArrayList<Point> currentPoints = new ArrayList<Point>();
+  /**
+   * points that are ready to be added to "currentPoints"
+   */
   protected ArrayList<Point> newPoints = new ArrayList<Point>();
+  /**
+   * points ready to be drawn on the screen
+   */
   protected ArrayList<Point> toBeDrawn = new ArrayList<Point>();
+  
   protected boolean begun = false;
-  protected boolean succes = false;
   protected int end = -1;
+
+  //legacy support
   public Thread Calc;
   public Thread Draw;
 
   /**
-   * @param labyrinth
-   * @param startX
-   * @param startY
-   * @param endX
-   * @param endY
+   * @param labyrinth the labyrinth that the program should work on
+   * @param startX the starting x coordinate of the algorithm
+   * @param startY the starting y coordinate of the algorithm
+   * @param endX the ending x coordinate of the algorithm
+   * @param endY the ending y coordinate of the algorithm
    */
   public recursiveSolver(Labyrinth labyrinth, int startX, int startY,int endX, int endY){
     this.maze = labyrinth;
@@ -37,10 +51,21 @@ public class recursiveSolver extends Solver{
     currentPoints.add(new Point(startX,startY));
   }
   
-  
+  /**
+   * legacy but should still work
+   * just not very well...
+   */
   public void move(int steps){
+    this.Calc = new mover();
+    this.Calc.start(steps);
     this.Calc.run();
   }
+  /**
+   * checks if a point has been acced before, 
+   * then if it is a path
+   * @param current the point being checked
+   * @return
+   */
   protected boolean checkPoint(Point current) {
     boolean bool = true;
     for (int i = 0; i < accesedPoints.size() && bool;i++){
@@ -49,6 +74,11 @@ public class recursiveSolver extends Solver{
     }
     return maze.isPath(current.X, current.Y) && bool;
   }
+  /**
+   * creates and adds the neighbors of a point to an ArrayList
+   * @param current
+   * @return
+   */
   protected ArrayList<Point> addPrepPoints(Point current) {
     ArrayList<Point> temp = new ArrayList<Point>();
     bigO.arrayAcces+=4;
@@ -60,12 +90,19 @@ public class recursiveSolver extends Solver{
     return temp;
   }
   
+  /**
+   * legacy but should still work
+   * just not very well...
+   */
   @Override
   public void draw(PGraphics g,  double sqrWidth, double sqrHeigth){
     drawer draw = new drawer();
     draw.start(g,sqrWidth,sqrHeigth);
     draw.run();
   }
+  /**
+   * @return wether a point has reached the end
+   */
   protected boolean finished(){
     for (int i = 0; i < currentPoints.size();i++){
         bigO.arrayAcces+=2;
@@ -75,6 +112,9 @@ public class recursiveSolver extends Solver{
     }
     return false;
   }
+  /**
+   * @return the point that reached the end if there is one
+   */
   protected int finishedPoint(){
     for (int i = 0; i < currentPoints.size();i++){
       bigO.arrayAcces+=2;
@@ -99,6 +139,9 @@ public class recursiveSolver extends Solver{
     currentPoints.addAll(newPoints);
     newPoints.clear();
   }
+    /**
+   * the thread that handles movement for this algorithm
+   */
   public class mover extends Thread{
     int steps;
     boolean isAlive = false;
@@ -115,7 +158,7 @@ public class recursiveSolver extends Solver{
       if(finished()){
         end = finishedPoint();
       }else{
-        for (int i = 0; i < steps && !succes;i++){
+        for (int i = 0; i < steps;i++){
           while(currentPoints.size() > 0){
             Point current = currentPoints.remove(0);
             if (checkPoint(current)){
@@ -130,7 +173,9 @@ public class recursiveSolver extends Solver{
       isAlive = false;
     }
   }
-
+  /**
+   * the Thread capable of drawing this algorithm to the screen 
+   */
   public class drawer extends Thread{
     boolean isAlive = false;
     private PGraphics g;
@@ -177,9 +222,16 @@ public class recursiveSolver extends Solver{
       isAlive = false;
       toBeDrawn.clear();
     }
+    /**
+     * 
+     * @param start the point that should be recursivly drawn from
+     * @param g the graphics objekt on which there should be drawn
+     * @param sqrWidth the width of every squares that will be drawn
+     * @param sqrHeigth the width of every squares that will be drawn
+     */
     private void drawRecurse(PGraphics g,Point start,double sqrWidth,double sqrHeigth) {
-      if (start.path.X == -1) return;
-      drawRecurse(g, start.path, sqrWidth, sqrHeigth);
+      if (start.recursivePoint.X == -1) return;
+      drawRecurse(g, start.recursivePoint, sqrWidth, sqrHeigth);
       g.fill(255);
       g.rect((float) (start.X * sqrWidth),(float) (start.Y*sqrHeigth),(float) sqrWidth,(float) sqrHeigth);
     }
@@ -189,9 +241,9 @@ public class recursiveSolver extends Solver{
   public int getLength() {
     int length = 0;
     Point temp = currentPoints.get(end);
-    while (temp.path.X != -1 && temp.path.Y != -1){
+    while (temp.recursivePoint.X != -1 && temp.recursivePoint.Y != -1){
       length++;
-      temp = temp.path;
+      temp = temp.recursivePoint;
     }
     
     return length;

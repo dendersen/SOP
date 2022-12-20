@@ -6,13 +6,12 @@ import mtdm.dk.bigO;
 import mtdm.dk.labyrinth.Labyrinth;
 
 public class RandomRecurse extends recursiveSolver{
-  // protected ArrayList<Point> currentPoints = new ArrayList<Point>();
   /**
-   * @param labyrinth
-   * @param startX
-   * @param startY
-   * @param endX
-   * @param endY
+   * @param labyrinth the labyrinth that the program should work on
+   * @param startX the starting x coordinate of the algorithm
+   * @param startY the starting y coordinate of the algorithm
+   * @param endX the ending x coordinate of the algorithm
+   * @param endY the ending y coordinate of the algorithm
    */
   public RandomRecurse(Labyrinth labyrinth, int startX, int startY, int endX, int endY) {
     super(labyrinth, startX, startY, endX, endY);
@@ -28,10 +27,11 @@ public class RandomRecurse extends recursiveSolver{
   public Thread callMovement() {
     return new moverr();
   }
-
+  /**
+ * the thread that handles movement for this algorithm
+ */
   public class moverr extends Thread {
     int steps; 
-    boolean isAlive = true;
     public void start(int step){
       steps = step;
     }

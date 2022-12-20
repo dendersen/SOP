@@ -6,19 +6,25 @@ import mtdm.dk.bigO;
 import mtdm.dk.labyrinth.Labyrinth;
 
 public class DepthFirstSearch extends recursiveSolver{
-
+  /**
+   * @param labyrinth the labyrinth that the program should work on
+   * @param startX the starting x coordinate of the algorithm
+   * @param startY the starting y coordinate of the algorithm
+   * @param endX the ending x coordinate of the algorithm
+   * @param endY the ending y coordinate of the algorithm
+   */
   public DepthFirstSearch(Labyrinth labyrinth, int startX, int startY, int endX, int endY) {
     super(labyrinth, startX, startY, endX, endY);
   }
-
   @Override
   public Thread callMovement() {
     return new mover();
   }
   
+  /**
+ * the thread that handles movement for this algorithm
+ */
   public class mover extends Thread{
-    int steps;
-    boolean isAlive = false;
     public void start(int steps){
       this.steps = steps;
       isAlive = false;

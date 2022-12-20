@@ -7,10 +7,12 @@ import java.util.Scanner;
 
 import mtdm.dk.Point;
 import mtdm.dk.bigO;
-import processing.core.PGraphics;
 
 public class LabyrinthGen {
-  public static Labyrinth maze(PGraphics g){
+  /**
+   * @return a premade test labyrinth
+   */
+  public static Labyrinth maze(){
     String regex = " ";
     String[] out = {
       "  █ █    ██   ",
@@ -22,10 +24,16 @@ public class LabyrinthGen {
       "█     █    █ █",
       "  █ █   █ █   "
     };
-    return new Labyrinth(out, regex,g);
+    return new Labyrinth(out, regex);
   }
-  
-  public static Labyrinth maze(PGraphics g,int width, int height, int density,int scramble){
+  /**
+   * @param width the number of points the labyrinth should be wide
+   * @param height the number of points the labyrinth should be tall
+   * @param density the parameter that controlls wether or not and how likely a point is to skip the path check
+   * @param scramble controlls the likelyhood of a point not getting a tile even if it is otherwise supposed to
+   * @return a newly generated labyrinth
+   */
+  public static Labyrinth maze(int width, int height, int density,int scramble){
     String[] out = new String[height];
     for (int i = 0; i < height; i++){
       String temp = "";
@@ -35,7 +43,7 @@ public class LabyrinthGen {
       out[i] = temp;
     }
     
-    Labyrinth maze = new Labyrinth(out, " ",g);
+    Labyrinth maze = new Labyrinth(out, " ");
     int randX = (int) Math.floor(Math.random() * (width -4) + 2);
     int randY = (int) Math.floor(Math.random() * (height-4) + 2);
     ArrayList<Point> active = new ArrayList<Point>();
@@ -52,10 +60,18 @@ public class LabyrinthGen {
         break;
       }
     }
-    return labyrinthTest(maze, g, width, height, density, scramble);
+    return labyrinthTest(maze, width, height, density, scramble);
   }
-
-  private static Labyrinth labyrinthTest(Labyrinth maze, PGraphics g,int width, int height, int density,int scramble) {
+/**
+ * test if a maze has enough tiles to be considered good
+ * @param maze the labyrinth to be tested
+ * @param width the width of the labyrinth (in case it failes)
+ * @param height the height of the labyrinth (in case it failes)
+ * @param density the density of the labyrinth (in case it failes)
+ * @param scramble the scramble of the labyrinth (in case it failes)
+ * @return a passing labyrinth
+ */
+  private static Labyrinth labyrinthTest(Labyrinth maze,int width, int height, int density,int scramble) {
     int sum = 0;
     for (int i = 0; i < maze.width; i++) {
       for (int j = 0; j < maze.height; j++) {
@@ -63,12 +79,16 @@ public class LabyrinthGen {
         bigO.pathCheck--;//prevent incorecct pathCheck
       }
     }
-    if((float) sum / (maze.width * maze.height) > 0.35){
+    if((float) sum / (maze.width * maze.height) > 0.35f){
       return maze;
     }
-    return maze(g, width, height, density, scramble);
+    return maze(width, height, density, scramble);
   }
-
+/**
+ * shuffles an Arraylist to make sure the order that points are added down not effekt the order in which they are used
+ * @param active the points to be shuffled
+ * @return shuffled points
+ */
   private static ArrayList<Point> shuffle(ArrayList<Point> active) {
     for (int i = 0; i < 4; i++){
       for (int j = 0; j < active.size(); j++) {
@@ -80,12 +100,12 @@ public class LabyrinthGen {
   }
 
   /**
-   * 
+   * check if a specific point should become a path
    * @param maze the mace being modified
    * @param p the point to be checked
    * @param density chances the chance of a path is placed, even if there are more than one path connected
    * @param scramble sets a chance a path that would otherwise have been places is not placed
-   * @return
+   * @return new points to be checked
    */
   private static ArrayList<Point> modelMaze(Labyrinth maze,Point p, int density, int scramble){
     // if (density >= 2 && (int) Math.floor(Math.random()) == 12){
@@ -114,10 +134,12 @@ public class LabyrinthGen {
     return a;
   }
 /**
+ * loads previusly saved labyriths from a file
  * @param ID the number of laboriths to be skiped before loading one
- * @return
+ * @return a labyrinth from a file
+ * @know_bug flips around x and y every time, unkown if in load, save or both
  */
-  public static Labyrinth LoadLaborinthFromFile(int ID,PGraphics g){
+  public static Labyrinth LoadLaborinthFromFile(int ID){
     int fileID = -1;
     int index = 0;
     String[] temp = new String[1];
@@ -162,6 +184,6 @@ public class LabyrinthGen {
         }
       }
     }
-    return new Labyrinth(out," ",g);
+    return new Labyrinth(out," ");
   }
 }

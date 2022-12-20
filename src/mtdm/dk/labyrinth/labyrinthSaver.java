@@ -5,19 +5,22 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
-
+/**
+ * saves a given string, expects labyrinths
+ */
 public class labyrinthSaver extends Thread{
-
-  String mazeString;
-  String regex;
-  Thread t;
-  
-  public void start(String labyrinth, String regex){
+/**
+ * the string to be writen
+ */
+  private String mazeString;
+  /**
+   * prepares the thread
+   * @param labyrinth the string to be wrtien to a file
+   */
+  public void start(String labyrinth){
     mazeString = labyrinth;
-    this.regex = regex;
   }
 
-  @Override
   public void run() {
     String data = "";
     File file = new File("Save.txt");
@@ -48,6 +51,11 @@ public class labyrinthSaver extends Thread{
     }
     System.out.println("safe to close program");
   }
+  /**
+   * archives text when the file gets too large
+   * @param out the string to be saved in this file
+   * @param index the index of the file that will be writen to
+   */
   private void archive(String out,int index){
     File file = new File("Save"+ index +".txt");
     try {

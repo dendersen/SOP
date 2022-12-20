@@ -2,7 +2,6 @@ package mtdm.dk.labyrinth;
 
 import mtdm.dk.Point;
 import mtdm.dk.bigO;
-import processing.core.PGraphics;
 
 public class Labyrinth{
   /**@param labyrinthTile [x][y]: true = path*/
@@ -11,13 +10,11 @@ public class Labyrinth{
   public int width;
   /**@param width the height of the labyrinth in tiles*/
   public int height;
-  PGraphics g;
   /**
    * @param maze each string represents different Y all strings must be the same length
    * @param regex chars that are to be considered paths, may not be special characters or å
    */
-  public Labyrinth(String[] maze,String regex,PGraphics g){
-    this.g = g;
+  public Labyrinth(String[] maze,String regex){
     width = maze[0].length();
     height = maze.length;
     labyrinthTile = new boolean[maze[0].length()][maze.length];
@@ -34,8 +31,7 @@ public class Labyrinth{
       }
     }
   }
-  public Labyrinth(PGraphics g,int Width, int Height){
-    this.g = g;
+  public Labyrinth(int Width, int Height){
     width = Height;
     height = Width;
     this.labyrinthTile = new boolean[width][height];
@@ -48,8 +44,8 @@ public class Labyrinth{
     }
   }
   /**
-   * @param x
-   * @param y
+   * @param x the x coordinate to be checked
+   * @param y the y coordinate to be checked
    * @return whether or not the given coordinates contain a path
    */
   public boolean isPath(int x,int y){
@@ -59,7 +55,11 @@ public class Labyrinth{
     }
     return labyrinthTile[x][y];
   }
-  
+  /**
+   * inds a path 
+   * @param up whether it goes up or down (true starts at bottom and goes up, flase the other way)
+   * @return a point in the labyrinth
+   */
   private Point findPath(boolean up){
     if (up){
       return angledBrute(width-4,height-4,true);
@@ -67,9 +67,17 @@ public class Labyrinth{
       return angledBrute(4,4,false);
     }
   }
+  /**
+   * @return "findPath(true)"
+   */
   public Point findPath(){
     return findPath(true);
   }
+  /**
+   * 
+   * @param notSame a point that is not allowed to be identical to output
+   * @return "findPath(false) != notSame"
+   */
   public Point findPath(Point notSame){
     Point pos = findPath(false);
     if((notSame.X == pos.X && notSame.Y == pos.Y)){
@@ -80,7 +88,13 @@ public class Labyrinth{
     }
     return pos;
   }
-  
+  /**
+   * searches for a point using an angel of 45 degrees
+   * @param x the x to start at
+   * @param y the y to start at
+   * @param up if it goes up
+   * @return a point that is a path
+   */
   private Point angledBrute (int x,int y, boolean up){
     while(true){
       bigO.pathCheck--;//prevent incorecct pathCheck
@@ -106,6 +120,13 @@ public class Labyrinth{
       }
     }
   }
+  /**
+   * searches for a point using an angel of 0 degrees
+   * @param x the x to start at
+   * @param y the y to start at
+   * @param up if it goes up
+   * @return a point that is a path
+   */
   private Point straightBrute(int x, int y, boolean up) {
     while(true){
       bigO.pathCheck--;//prevent incorecct pathCheck
@@ -129,9 +150,9 @@ public class Labyrinth{
   }
 
   /**
-   * @param X
-   * @param Y
-   * @param path whether or not i will become a path
+   * @param X the X coordinate of the place you want to change
+   * @param Y the Y coordinate of the place you want to change
+   * @param path whether or not it will become a path
    * @return succes
    */
   public boolean modifyLaborinth(int X, int Y, boolean path){
@@ -147,7 +168,7 @@ public class Labyrinth{
     for (int i = 0; i < width; i++){
       String temp = "";
       for (int j = 0; j < height; j++){
-        temp += (isPath(i,j) ? " ":"█");
+        temp += (isPath(i,j) ? " ":"@");
         bigO.pathCheck--;//prevent incorecct pathCheck
       }
       out += "\"" + temp + "\",";
@@ -155,23 +176,17 @@ public class Labyrinth{
     }
     return out + "}";
   }
-  public void saveLaborinthFromFile(String regex){
+  /**
+   * calls a saving class that will save the labyrinth
+   * @param regex does not do anything at the moment
+   */
+  public void saveLaborinthToFile(String regex){
     System.out.println("starting labyrinthSaver");
     
     labyrinthSaver writer = new labyrinthSaver();
-    writer.start(toString(), regex);
+    writer.start(toString());
     Thread t = new Thread(writer);
     t.start();
     System.out.println("labyrinthSaver running");
   }
-
-  // public int sum(){
-  //   int out = 0; 
-  //   for (int i = 0; i < width; i++){
-  //     for (int j = 0; j < width; j++){
-
-  //     }
-  //   }
-  //   return 
-  // }
 }
