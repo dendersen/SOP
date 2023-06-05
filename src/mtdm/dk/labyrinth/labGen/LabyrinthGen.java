@@ -1,14 +1,26 @@
-package mtdm.dk.labyrinth;
+package mtdm.dk.labyrinth.labGen;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
-
+import mtdm.dk.labyrinth.labGen.GeneratorDraw;
 import mtdm.dk.Point;
 import mtdm.dk.bigO;
+import mtdm.dk.labyrinth.Labyrinth;
+import processing.core.PApplet;
 
 public class LabyrinthGen {
+
+  private static GeneratorDraw draw;
+
+  public static void start(Labyrinth maze,int width, int height){
+    String[] processingArgs = {"GeneratorDraw"};
+    draw = new GeneratorDraw(maze,width,height);
+    PApplet.runSketch(processingArgs,draw);
+  }
+
+
   /**
    * @return a premade test labyrinth
    */
@@ -26,14 +38,17 @@ public class LabyrinthGen {
     };
     return new Labyrinth(out, regex);
   }
-  /**
+  public static Labyrinth maze(int width, int height, int density,int scramble){
+    return maze(width, height, density, scramble, true);
+  }
+    /**
    * @param width the number of points the labyrinth should be wide
    * @param height the number of points the labyrinth should be tall
    * @param density the parameter that controlls wether or not and how likely a point is to skip the path check
    * @param scramble controlls the likelyhood of a point not getting a tile even if it is otherwise supposed to
    * @return a newly generated labyrinth
    */
-  public static Labyrinth maze(int width, int height, int density,int scramble){
+  public static Labyrinth maze(int width, int height, int density,int scramble,boolean drawStep){
     String[] out = new String[height];
     for (int i = 0; i < height; i++){
       String temp = "";
@@ -44,6 +59,9 @@ public class LabyrinthGen {
     }
     
     Labyrinth maze = new Labyrinth(out, " ");
+    if(drawStep){
+      start(maze,width,height);
+    }
     int randX = (int) Math.floor(Math.random() * (width -4) + 2);
     int randY = (int) Math.floor(Math.random() * (height-4) + 2);
     ArrayList<Point> active = new ArrayList<Point>();
@@ -51,8 +69,19 @@ public class LabyrinthGen {
     maze.modifyLaborinth(randX, randY, true);
     while(true){
     ArrayList<Point> activeTemp = new ArrayList<Point>();
-      while(active.size() > 0){
+      int skipped = 0;
+      while(active.size() > skipped){
+        if(Math.random()>0.95){
+          continue;
+        }
         activeTemp.addAll(modelMaze(maze, active.remove(0), density, scramble));
+        if(drawStep){
+          try {
+            Thread.sleep(1);
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          }
+        }
       }
       active.addAll(activeTemp);
       active = shuffle(active);

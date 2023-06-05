@@ -3,7 +3,7 @@ package mtdm.dk;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import mtdm.dk.labyrinth.Labyrinth;
-import mtdm.dk.labyrinth.LabyrinthGen;
+import mtdm.dk.labyrinth.labGen.LabyrinthGen;
 import mtdm.dk.solvers.Solver;
 
 public class Sketch extends PApplet{

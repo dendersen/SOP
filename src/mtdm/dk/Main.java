@@ -29,11 +29,12 @@ public class Main {
     String[] processingArgs = {"Sketch"};
 
     int sizeX = 100;
-    byte ID = 0;
+    byte ID = 2;
     int loader = -1;
+
     // 50,100,150,200,250,300
     int sizeY = sizeX;
-    draw = new Sketch(ID,-1,4,sizeX,sizeY,1200,loader,6,4);
+    draw = new Sketch(ID,10,10,sizeX,sizeY,1200,loader,3,4);
     PApplet.runSketch(processingArgs,draw);
 
     while (!draw.goal()) {
@@ -51,6 +52,7 @@ public class Main {
     
     BigOContoller(sizeX, sizeY,ID,draw.getLength());
     
+
   }
   /**
    * writes some information about the solution to the console
